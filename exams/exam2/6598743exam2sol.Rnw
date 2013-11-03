@@ -1,0 +1,249 @@
+% !TEX TS-program = knitr
+\documentclass{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{latexsym}
+\usepackage{listings}
+\usepackage{mathrsfs}
+\usepackage{natbib}
+\usepackage[nottoc]{tocbibind}
+\usepackage{rotating}
+\usepackage{url}
+\usepackage{mdwlist}
+
+\providecommand{\all}{\ \forall \ }
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\m}[1]{\mathbb{#1}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\p}{\newpage}
+\providecommand{\q}{$\quad$ \newline}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+%\renewcommand\bibname{References}
+%\renewcommand{\thesection}{Problem \arabic{section}}
+%\renewcommand{\thesubsection}{Part \alph{subsection}}
+\numberwithin{equation}{section}
+
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[R]{\thepage}
+\fancyhead[C]{Landau}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=blue
+}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{ 
+  language=C,                % the language of the code
+  basicstyle=\Large,           % the size of the fonts that are used for the code
+  numberstyle= \tiny \color{white},  % the style that is used for the line-numbers
+  stepnumber=2,                   % the step between two line-numbers. 
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=lrb,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text 
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=t,                   % sets the caption-position 
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{gray},       % comment style
+  stringstyle=\color{dkgreen},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*, ...},               % if you want to add more keywords to the set
+  xleftmargin=0.053in, % left horizontal offset of caption box
+  xrightmargin=-.03in % right horizontal offset of caption box
+}
+
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\parbox{\textwidth}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}\vskip-0.05in}}
+\captionsetup[lstlisting]{format = listing, labelfont = white, textfont = white}
+% For caption-free listings, comment out the 3 lines above and uncomment the 2 lines below.
+% \captionsetup{labelformat = empty, labelsep = none}
+% \lstset{frame = single}
+
+\SweaveOpts{out.width = "\\textwidth"}
+
+<<echo = F>>=
+options(width = 60) # R output width
+@
+
+\begin{document}
+\begin{flushleft}
+
+
+\Huge
+\begin{center}
+{\bf STAT 305 D Exam 2}
+\end{center} 
+\huge
+\begin{center}
+{\bf Show all your work.}
+\end{center}
+
+\normalsize
+\begin{enumerate}[1. ]
+\item (25 points) Suppose 90\% of all students taking a beginning programming course fail to get their first program to run on first submission. Use a binomial distribution and assign probabilities to the possibilities that among a group of six such students,
+
+\begin{enumerate}[(a)]
+\item (5 points) all fail on their first submissions.
+\item (5 points) at least four fail on their first submissions
+\item (5 points) less than four fail on their first submissions.
+\suspend{enumerate}
+Continuing to use this binomial model:
+\resume{enumerate}
+\item (5 points) What is the mean number who will fail?
+\item (5 points) What are the variance and standard deviation of the number who will fail?
+\end{enumerate}
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/exam2p1sol.png}
+
+\item (20 points) Find $E(X)$ and Var$(X)$ for a continuous distribution with probability density
+\begin{align*}
+f(x) = \begin{cases}
+0.3 & 0 < x \le 1 \\
+0.7 & 1 < x \le 2 \\
+0 & \text{otherwise}
+\end{cases}
+\end{align*}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/exam2p2sol.png}
+
+
+\item Suppose that $X$ is a normal random variable with mean $\mu = 10.2$ and standard deviation $\sigma = 0.7$. Evaluate the following probabilities involving $X$:
+\begin{enumerate}[(a)]
+\item (3 points) $P(X \le 10.1)$
+\item (3 points) $P(X > 10.5)$
+\item (3 points) $P(9.0 < X < 10.3)$
+\item (4 points) $P(|X - 10.2| \le 0.25)$
+\item (4 points) $P(|X - 10.2|>1.51)$
+\suspend{enumerate}
+Find numbers \# such that the following statements about $X$ are true:
+\resume{enumerate}
+\item (4 points) $P(|X - 10.2| < \#) = 0.80$
+\item (4 points) $P(X < \#) = 0.80$
+\item (5 points) $P(|X - 10.2| > \#) = 0.04$
+\end{enumerate}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/exam2p3sol1.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/exam2p3sol2.png}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%\item A service station has both self-service and full-service islands. On each island, there is a single regular unleaded pump with two hoses. Let $X$ denote the number of hoses being used on the self-service island at a particular time, and let $Y$ denote the number of hoses on the full-service island in use at that time. The joint pmf $X$ and $Y$ appears in the accompanying tabulation.
+
+%\begin{center}
+%\begin{tabular}{c|ccc}
+%p(x,y) & y = 0 & y = 1 & y = 2 \\ \hline
+%x = 0 & 0.10 & 0.04 & 0.02 \\ 
+%x = 1 & 0.08 & 0.20 & 0.06 \\ 
+%x = 2 & 0.06 & 0.14 & 0.30 \\ 
+%\end{tabular}
+%\end{center}
+
+%\begin{enumerate}[(a)]
+%\item What is $P(X = 1 \text{ and } Y = 1)$?
+%\item Compute $P(X \le 1 \text{ and } Y \le 1)$.
+%\item Compute the marginal pmf of $X$ and of $Y$. Using $f_X(x)$, calculate $P(X \le 1)$. 
+%\item Are $X$ and $Y$ independent random variables? Explain.
+%\end{enumerate}
+%\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/exam2p4sol.png}
+
+%\item A type of nominal $\frac{3}{4}$ inch plywood is made of five layers. These layers can be thought of as having thicknesses roughly describable as independent random variables with means and standard deviations as follows:
+%\begin{center}
+%\setkeys{Gin}{width=0.7\textwidth} \includegraphics{../../fig/exam2p5-1.png}
+%\end{center}
+%Find the mean and standard deviation of total thickness associated with the combination of these individual values.
+%\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/exam2p5sol.png}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\item (25 points) A 10 ft cable is made of 50 strands. Suppose that, individually, 10 ft strands have breaking strengths with mean 45 lb and standard deviation 4 lb. Suppose further that the breaking strength of a cable is roughly the sum of the strengths of the strands that make it up.
+\begin{enumerate}[(a)]
+\item (13 points) Find a plausible mean and standard deviation for the breaking strength of such 10 ft cables.
+\item (12 points) Evaluate the probability that a 10 ft cable of this type will support a load of 2230 lb. (\emph{Hint}: If $\ov{X}$ is the mean breaking strength of the strands, $\sum(\text{Strengths}) \ge 2230$ is the same as $\ov{X} \ge (\frac{2230}{50})$. Now, use the central limit theorem.)
+\end{enumerate}
+\setkeys{Gin}{width=.9\textwidth} \includegraphics{../../fig/exam2p6sol.png}
+
+\end{enumerate}
+\end{flushleft}
+\end{document}

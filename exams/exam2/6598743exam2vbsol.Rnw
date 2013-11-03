@@ -1,0 +1,197 @@
+% !TEX TS-program = knitr
+\documentclass{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{latexsym}
+\usepackage{listings}
+\usepackage{mathrsfs}
+\usepackage{natbib}
+\usepackage[nottoc]{tocbibind}
+\usepackage{rotating}
+\usepackage{url}
+\usepackage{mdwlist}
+
+\providecommand{\all}{\ \forall \ }
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\m}[1]{\mathbb{#1}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\p}{\newpage}
+\providecommand{\q}{$\quad$ \newline}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+%\renewcommand\bibname{References}
+%\renewcommand{\thesection}{Problem \arabic{section}}
+%\renewcommand{\thesubsection}{Part \alph{subsection}}
+\numberwithin{equation}{section}
+
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[R]{\thepage}
+\fancyhead[C]{Landau}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=blue
+}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{ 
+  language=C,                % the language of the code
+  basicstyle=\Large,           % the size of the fonts that are used for the code
+  numberstyle= \tiny \color{white},  % the style that is used for the line-numbers
+  stepnumber=2,                   % the step between two line-numbers. 
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=lrb,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text 
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=t,                   % sets the caption-position 
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{gray},       % comment style
+  stringstyle=\color{dkgreen},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*, ...},               % if you want to add more keywords to the set
+  xleftmargin=0.053in, % left horizontal offset of caption box
+  xrightmargin=-.03in % right horizontal offset of caption box
+}
+
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\parbox{\textwidth}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}\vskip-0.05in}}
+\captionsetup[lstlisting]{format = listing, labelfont = white, textfont = white}
+% For caption-free listings, comment out the 3 lines above and uncomment the 2 lines below.
+% \captionsetup{labelformat = empty, labelsep = none}
+% \lstset{frame = single}
+
+<<echo = F>>=
+options(width = 60) # R output width
+@
+
+\begin{document}
+\begin{flushleft}
+
+
+\Huge
+\begin{center}
+{\bf STAT 305 D Exam 2}
+\end{center} 
+\huge
+\begin{center}
+{\bf Show all your work.}
+\end{center}
+
+\normalsize
+\begin{enumerate}[1. ]
+\item (25 points) Suppose 80\% of all students taking a beginning programming course fail to get their first program to run on first submission. Use a binomial distribution and assign probabilities to the possibilities that among a group of six such students,
+
+\begin{enumerate}[(a)]
+\item (5 points) all fail on their first submissions. \q
+
+\color{red}
+\begin{align*}
+P(\text{all fail}) = P(X = 6) = \frac{6!}{(6-6)!6!} .8^{6} .2^{6-6} = .8^6 = 0.262
+\end{align*}
+\color{black}
+
+\item (5 points) at least four fail on their first submissions
+
+\color{red}
+\begin{align*}
+P(X \ge 4) &= P(X = 4) + P(X = 5) + P(X  = 6) \\
+&= \frac{6!}{(6-4)!4!} .8^{4} .2^{6-4}  + \frac{6!}{(6-5)!5!} .8^{5} .2^{6-5} + \frac{6!}{(6-6)!6!} .8^{6} .2^{6-6} \\
+&= 0.245 +  0.393 + 0.262 \\
+&= 0.9
+\end{align*}
+\color{black}
+
+
+\item (5 points) less than four fail on their first submissions.
+{\color{red}$P(X < 4) = 1 - P(X \ge 4) = 1 - .9 = 0.1$}
+\suspend{enumerate}
+Continuing to use this binomial model:
+\resume{enumerate}
+\item (5 points) What is the mean number who will fail? {\color{red} $E(X) = np = 6 \cdot 0.8 = 4.8$}
+\item (5 points) What are the variance and standard deviation of the number who will fail?
+
+\color{red}
+\begin{align*}
+Var(X) &= n\cdot p \cdot (1-p) = 6 \cdot 0.8 \cdot 0.2 = 0.96 \\
+SD(X) &= \sqrt{0.96} = 0.98
+\end{align*}
+\color{black}
+
+\end{enumerate}
+
+
+\item (24 points, each part worth 6 points) 
+
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/exam2p2b.png}
+
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/exam2p2bsol1.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/exam2p2bsol2.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/exam2p2bsol3.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/exam2p2bsol4.png}
+
+
+
+
+\item (26 points) A service station has both self-service and full-service islands. On each island, there is a single regular unleaded pump with two hoses. Let $X$ denote the number of hoses being used on the self-service island at a particular time, and let $Y$ denote the number of hoses on the full-service island in use at that time. The joint pmf $X$ and $Y$ appears in the accompanying tabulation.
+
+\begin{center}
+\begin{tabular}{c|ccc}
+p(x,y) & y = 0 & y = 1 & y = 2 \\ \hline
+x = 0 & 0.10 & 0.04 & 0.02 \\ 
+x = 1 & 0.08 & 0.20 & 0.06 \\ 
+x = 2 & 0.06 & 0.14 & 0.30 \\ 
+\end{tabular}
+\end{center}
+
+\begin{enumerate}[(a)]
+\item (6 points) What is $P(X = 1 \text{ and } Y = 1)$?
+\item (6 points) Compute $P(X \le 1 \text{ and } Y \le 1)$.
+\item (6 points) Compute the marginal pmf of $X$ and of $Y$. Using $f_X(x)$, calculate $P(X \le 1)$. 
+\item (8 points) Are $X$ and $Y$ independent random variables? Explain.
+\end{enumerate}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/exam2p4sol.png}
+
+\item (25 points) A type of nominal $\frac{3}{4}$ inch plywood is made of five layers. These layers can be thought of as having thicknesses roughly describable as independent random variables with means and standard deviations as follows:
+\begin{center}
+\setkeys{Gin}{width=0.7\textwidth} \includegraphics{../../fig/exam2p5-1.png}
+\end{center}
+Find the mean and standard deviation of total thickness associated with the combination of these individual values.
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/exam2p5sol.png}
+
+
+
+\end{enumerate}
+\end{flushleft}
+\end{document}

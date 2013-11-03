@@ -1,0 +1,219 @@
+% !TEX TS-program = knitr
+\documentclass{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{latexsym}
+\usepackage{listings}
+\usepackage{mathrsfs}
+\usepackage{natbib}
+\usepackage[nottoc]{tocbibind}
+\usepackage{rotating}
+\usepackage{url}
+\usepackage{mdwlist}
+
+\providecommand{\all}{\ \forall \ }
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\m}[1]{\mathbb{#1}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\p}{\newpage}
+\providecommand{\q}{$\quad$ \newline}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+%\renewcommand\bibname{References}
+%\renewcommand{\thesection}{Problem \arabic{section}}
+%\renewcommand{\thesubsection}{Part \alph{subsection}}
+\numberwithin{equation}{section}
+
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[R]{\thepage}
+\fancyhead[C]{Landau}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=blue
+}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{ 
+  language=C,                % the language of the code
+  basicstyle=\Large,           % the size of the fonts that are used for the code
+  numberstyle= \tiny \color{white},  % the style that is used for the line-numbers
+  stepnumber=2,                   % the step between two line-numbers. 
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=lrb,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text 
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=t,                   % sets the caption-position 
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{gray},       % comment style
+  stringstyle=\color{dkgreen},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*, ...},               % if you want to add more keywords to the set
+  xleftmargin=0.053in, % left horizontal offset of caption box
+  xrightmargin=-.03in % right horizontal offset of caption box
+}
+
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\parbox{\textwidth}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}\vskip-0.05in}}
+\captionsetup[lstlisting]{format = listing, labelfont = white, textfont = white}
+% For caption-free listings, comment out the 3 lines above and uncomment the 2 lines below.
+% \captionsetup{labelformat = empty, labelsep = none}
+% \lstset{frame = single}
+
+<<echo = F>>=
+options(width = 60) # R output width
+@
+
+\begin{document}
+\begin{flushleft}
+
+
+\Huge
+\begin{center}
+{\bf STAT 305 D Final Exam}
+\end{center} 
+\huge
+\begin{center}
+{\bf Show all your work.}
+\end{center}
+
+\normalsize
+\begin{enumerate}[1. ]
+
+\item (20 points) Find the following:
+
+\begin{enumerate}[a. ]
+\item (4 points) $P((Z - 2, Z + 2) \text{ contains } 0)$, $Z \sim N(0,1)$
+\item (4 points) $P((X - 5, X + 5) \text{ contains } 8)$, $X \sim N(3,4)$
+\item (4 points) $P((X - 2, X + 2) \text{ contains } 0)$, $X \sim N(1,0.4)$
+\item (4 points) $P((X - 5, X + 5) \text{ contains } 8)$, $X \sim t_7)$
+\item (4 points) $P((X - 1.5 \cdot \sigma, X + 1.5 \cdot \sigma) \text{ contains } \mu)$, $X \sim N(\mu,\sigma^2)$
+\end{enumerate}
+
+
+\item (20 points) Every year, your eccentric neighbor carves an excessive number of pumpkins for Halloween and leaves them outside his front door through November. Being eccentric yourself, you weigh all the pumpkins and record their combined weight each year. Here are the data from the last six years: 
+
+\begin{center}
+\begin{tabular}{c|cccccc}
+Year & 2007 & 2008 & 2009 & 2010 & 2011 & 2012 \\ \hline
+Weight (lb) & 311.0 & 271.1 & 320.7 & 274.3 & 332.4 & 304.4   \\ 
+\end{tabular}
+\end{center}
+
+\begin{enumerate}[a. ]
+\item (10 points) Conduct a hypothesis test at $\alpha = 0.05$ to find out if the true mean combined weight of your neighbor's pumpkins exceeds 290 lb.
+\item (10 points) Attempt to convince your neighbor of his absurdity by constructing and interpreting a lower 99\% confidence interval for the true mean pumpkin weight.
+\end{enumerate}
+
+
+\item (20 points) Not to be outdone, you have been carving and displaying absurd levels of pumpkin matter this entire time. Here are \emph{your} combined pumpkin weights for the last six years.
+
+\begin{center}
+\begin{tabular}{c|cccccc}
+Year & 2007 & 2008 & 2009 & 2010 & 2011 & 2012 \\ \hline
+Weight (lb) & 317.7 & 368.0 & 341.8 & 367.1 & 318.1 & 292.1   \\ 
+\end{tabular}
+\end{center}
+
+\begin{enumerate}[a. ]
+\item (10 points) In a typical year, do you exceed your neighbor in pumpkin weight? Conduct the appropriate hypothesis at $\alpha = 0.05$ to find out.
+\item (10 points) Construct and interpret a 2-sided 95\% confidence interval for the true mean difference in pumpkin mass between the two of you.
+\end{enumerate}
+
+
+\item (20 points) Now that you have bought and carved too many pumpkins, you have too many pumpkin seeds. You also have your neighbor's seeds because he is too eccentric for any kind of seed. You have thousands and thousands of seeds. Naturally, you decide to measure the length of each seed individually, painstakingly, carefully, painstakingly, and individually. Pain! Your 11201 seeds (sample 1) have a mean length of 1.11 cm and a standard deviation of 0.25 cm. Your neighbor's 6732 seeds (sample 2) have a mean length of 1.23 cm and a standard deviation of .25 cm. 
+
+\begin{enumerate}[a. ]
+\item (10 points) Use the appropriate hypothesis test at $\alpha = 0.01$ to test the claim that, on average, your seeds are a different length than your neighbor's.
+\item (10 points) Compute and interpret a two-sided 99\% confidence interval for the difference in true mean pumpkin seed lengths (yours - your neighbor's).
+\end{enumerate}
+
+
+
+
+
+\item (20 points) Return to the New York rivers data:
+
+\begin{center}
+<<echo=F, results = "tex">>=
+library(xtable)
+d= readRDS("../../data/rds/rivers.rds")
+xtable(d)
+@
+\end{center}
+
+Remember:
+\begin{itemize}
+\item $Y$ is the mean nitrogen content (mg/liter) of the river based on samples based on regular intervals taken in the spring, summer, and fall months.
+\item $X1$ is the percentage of surrounding land used in agriculture.
+\item $X2$ is the \% surrounding forested land.
+\item $X3$ is the \% surrounding residential land.
+\item $X4$ is the \% surrounding commercial/industrial land.
+\end{itemize}
+
+I fit the model:
+\begin{align*}
+Y_i = \beta_0 + \beta_1 X_{1, i}  + \beta_2 X_{2, i}  + \beta_3 X_{3, i}  + \beta_4 X_{4, i} + \e_i 
+\end{align*}
+
+And here is part of the JMP output:
+
+\begin{center}
+\setkeys{Gin}{width=.7\textwidth} \includegraphics{../../fig/riversparams.png}
+\end{center}
+
+\begin{enumerate}[a. ]
+\item (4 points) State the assumptions on the $\e_i$'s that we need in order to do inference.
+\item (4 points) Does \% agricultural land affect the nitrogen content in the rivers? Conduct the appropriate hypothesis test at $\alpha = 0.05$ to find out.
+\item (4 points) Test $H_0: \beta_4 = 1$ vs. $H_a: \beta_4 > 1$ at $\alpha = 0.01$.
+\item (4 points) Construct and interpret a 2-sided 95\% confidence interval for the intercept in the model.
+\item (4 points) What does the model intercept represent? Is there anything problematic in your interpretation on a practical level?
+\end{enumerate}
+
+
+
+\item EXTRA CREDIT (10 points). Suppose I fit a different model with just X2 and X3:
+
+
+\begin{center}
+\setkeys{Gin}{width=.7\textwidth} \includegraphics{../../fig/riversparams2.png}
+\end{center}
+
+Why is the coefficient on X2 significantly different from 0 here (p-value = 0.0012) even though it was not significantly different from 0 before (p-value = 0.3667)?  \q
+
+
+
+
+\end{enumerate}
+\end{flushleft}
+\end{document}

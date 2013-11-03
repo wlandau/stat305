@@ -1,0 +1,198 @@
+\documentclass{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{latexsym}
+\usepackage{listings}
+\usepackage{mathrsfs}
+\usepackage{natbib}
+\usepackage[nottoc]{tocbibind}
+\usepackage{url}
+
+\providecommand{\all}{\ \forall \ }
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\m}[1]{\mathbb{#1}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\p}{\newpage}
+\providecommand{\q}{$\quad$ \newline}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+%\renewcommand\bibname{References}
+\renewcommand{\thesection}{Problem \arabic{section}}
+\renewcommand{\thesubsection}{Part \alph{subsection}}
+\numberwithin{equation}{section}
+
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[R]{\thepage}
+\fancyhead[C]{Landau}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=blue
+}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{ 
+  language=C,                % the language of the code
+  basicstyle=\Large,           % the size of the fonts that are used for the code
+  numberstyle= \tiny \color{white},  % the style that is used for the line-numbers
+  stepnumber=2,                   % the step between two line-numbers. 
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=lrb,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text 
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=t,                   % sets the caption-position 
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{gray},       % comment style
+  stringstyle=\color{dkgreen},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*, ...},               % if you want to add more keywords to the set
+  xleftmargin=0.053in, % left horizontal offset of caption box
+  xrightmargin=-.03in % right horizontal offset of caption box
+}
+
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\parbox{\textwidth}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}\vskip-0.05in}}
+\captionsetup[lstlisting]{format = listing, labelfont = white, textfont = white}
+% For caption-free listings, comment out the 3 lines above and uncomment the 2 lines below.
+% \captionsetup{labelformat = empty, labelsep = none}
+% \lstset{frame = single}
+
+\begin{document}
+
+\begin{flushleft}
+
+\begin{enumerate}[1. ]
+\item Let $X$, $Y$, and $Z$ be random variables with expected values and standard deviations given below:
+
+\begin{center}
+\begin{tabular}{ccc}
+& Expected Value & Standard Deviation \\ \hline
+$X$ & 1.5 & 3.2 \\ 
+$Y$ & 0 & 8.1 \\ 
+$Z$ & 6 & 2.7 \\ 
+\end{tabular}
+\end{center}
+
+Find:
+\begin{itemize}
+\item $E(8 + 2 X + Y + Z)$
+\item $SD(8 + 2 X + Y + Z)$
+\end{itemize}
+
+{\color{red}
+
+\begin{itemize}
+\item The expected value of the linear combination is:
+\begin{align*}
+E(8 + 2 X + Y + Z) &= 8 + 2 E(X) + E(Y) + E(Z) \\
+&= 8 + 2 \cdot 1.5 + 0 + 6 \\
+&= 17
+\end{align*}
+\item Before computing the standard deviation, note:
+\begin{align*}
+Var(8 + 2 X + Y + Z) &= 2^2 Var(X) + Var(Y) + Var(Z)
+\intertext{Remember that the standard deviation is the square root of the variance:}
+[SD(8 + 2 X + Y + Z)]^2 &= 2^2 [SD(X)]^2 + [SD(Y)]^2 + [SD(Z)]^2 \\
+SD(8 + 2 X + Y + Z) &= \sqrt{2^2 [SD(X)]^2 + [SD(Y)]^2 + [SD(Z)]^2} \\
+&= \sqrt{2^2 [3.2]^2 + [8.1]^2 + [2.7]^2} \\
+&\approx 10.671
+\end{align*}
+\end{itemize}
+}
+
+
+\item Let $X$ be the the number of crankshafts that fail in a given test of a certain type of vehicle ($X = 0, 1, 2$). Let $Y = 1$ if the clutch fails during that same test and $Y = 0$ otherwise. Consider the joint distribution of $X$ and $Y$:
+
+\begin{center}
+\begin{tabular}{cccc}
+ $Y \backslash X$ & 0 & 1 & 2 \\ \hline
+ 0 & 0.35 & 0.1 & 0.05 \\
+ 1 & 0.2 & 0.25 & 0.05 \\
+\end{tabular}
+\end{center}
+
+Find or answer the following:
+
+\begin{itemize}
+\item $P(X = 1$ and $ Y = 1)$
+\item $P(X  = 0)$
+\item $P(X > 0$ and $Y = 1)$
+\item The marginal pmfs of $X$ and $Y$
+\item Are $X$ and $Y$ independent? Why or why not?
+\end{itemize}
+
+{\color{red}
+
+\begin{itemize}
+\item $P(X = 1$ and $ Y = 1)$ = 0.25 from the table.
+\item $P(X = 0)$:
+\begin{align*}
+P(X = 0) &= P(X = 0, Y = 0) + P(X = 0, Y = 1) \\
+&= 0.35 + 0.2 \\
+&= 0.55
+\end{align*},
+\item $P(X > 0$ and $Y = 1)$
+\begin{align*}
+P(X > 0, Y = 1) &= P(X = 1, Y = 1) + P(X = 2, Y = 1) \\
+&= 0.25 + 0.05 \\
+&= 0.3
+\end{align*}
+\item For the marginal pmf of $X$, take the row sums of the table: 
+
+\begin{center}
+\begin{tabular}{cccc}
+$x$ & 0 & 1 & 2 \\ \hline
+$f_X(x)$ & 0.55 & 0.35 & 0.1 
+\end{tabular}
+\end{center}
+
+For the marginal pmf of $Y$, take the column sums of the table:
+
+\begin{center}
+\begin{tabular}{ccc}
+$y$ & 0 & 1  \\ \hline
+$f_Y(y)$ & 0.5 & 0.5
+\end{tabular}
+\end{center}
+\item $X$ and $Y$ are independent random variables if and only if $P(X = x, Y = y) = P(X = x) \cdot P(Y = y)$ for all values $x$ and $y$. That is, the joint pmf must always be the product of the two marginals. However, in this case, $P(X = 1, Y = 1)$ = 0.25, while $P(X = 1) \cdot P(Y = 1) = f_X(1) \cdot f_Y(1) = 0.35 \cdot 0.5 = 0.175$. Therefore, $X$ and $Y$ are not independent.
+\end{itemize}}
+
+\end{enumerate}
+
+
+\end{flushleft}
+%\newpage 
+%\nocite{*}
+%\bibliographystyle{plainnat} 
+%\bibliography{}
+\end{document}

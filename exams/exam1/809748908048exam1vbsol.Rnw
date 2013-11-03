@@ -1,0 +1,396 @@
+% !TEX TS-program = knitr
+\documentclass{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{latexsym}
+\usepackage{listings}
+\usepackage{mathrsfs}
+\usepackage{natbib}
+\usepackage[nottoc]{tocbibind}
+\usepackage{rotating}
+\usepackage{url}
+
+\providecommand{\all}{\ \forall \ }
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\m}[1]{\mathbb{#1}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\p}{\newpage}
+\providecommand{\q}{$\quad$ \newline}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+%\renewcommand\bibname{References}
+%\renewcommand{\thesection}{Problem \arabic{section}}
+%\renewcommand{\thesubsection}{Part \alph{subsection}}
+\numberwithin{equation}{section}
+
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[R]{\thepage}
+\fancyhead[C]{Landau}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=blue
+}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{ 
+  language=C,                % the language of the code
+  basicstyle=\Large,           % the size of the fonts that are used for the code
+  numberstyle= \tiny \color{white},  % the style that is used for the line-numbers
+  stepnumber=2,                   % the step between two line-numbers. 
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=lrb,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text 
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=t,                   % sets the caption-position 
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{gray},       % comment style
+  stringstyle=\color{dkgreen},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*, ...},               % if you want to add more keywords to the set
+  xleftmargin=0.053in, % left horizontal offset of caption box
+  xrightmargin=-.03in % right horizontal offset of caption box
+}
+
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\parbox{\textwidth}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}\vskip-0.05in}}
+\captionsetup[lstlisting]{format = listing, labelfont = white, textfont = white}
+% For caption-free listings, comment out the 3 lines above and uncomment the 2 lines below.
+% \captionsetup{labelformat = empty, labelsep = none}
+% \lstset{frame = single}
+
+\SweaveOpts{out.width = "\\textwidth"}
+
+<<echo = F>>=
+options(width = 60) # R output width
+@
+
+\begin{document}
+\begin{flushleft}
+
+
+\Huge
+\begin{center}
+{\bf STAT 305 D Exam 1}
+\end{center} 
+\huge
+\begin{center}
+{\bf Show all your work.}
+\end{center}
+
+\normalsize
+\begin{enumerate}[1. ]
+
+
+
+
+\item (20 points) Caustic stress corrosion cracking of iron and steel has been studied because of failures around rivets in steel boilers and failures of steam rotors. A new teflon coating may reduce the corrosion behind this cracking. 10 steel bars were taken from manufacturer A, which uses the teflon coating, and 10 were taken from manufacturer B, which does not.  Constant load stress corrosion tests (with constant load and constant stress) were applied for the same length of time to each bar. The length of the longest crack in $\mu$m was measured for each.
+
+\begin{enumerate}[a. ]
+\item (3 points) Identify the sample (or samples).
+{\color{red}
+
+\begin{itemize}
+\item Sample 1: the 10 bars from manufacturer A.
+\item Sample 2: the 10 bars from manufacturer B.
+\end{itemize}
+}
+
+\item (3 points) Identify the population (or populations).
+
+{\color{red}
+\begin{itemize}
+\item Population 1: All the steel bars that could have been selected from manufacturer A.
+\item Population 2: All the steel bars that could have been selected from manufactuer B.
+\end{itemize}
+}
+
+\item (3 points) Identify and classify all the variables.
+
+
+{\color{red}
+\begin{itemize}
+\item Blocking (or concomitant) variable: manufacturer (A or B). Or, you could have said teflon (absent or present).
+\item Response (or concomitant) variable: length of longest crack
+\end{itemize}
+}
+
+\item (3 points) Is this study an experimental study or an observational study?
+
+{\color{red} This is an observational study because the experimenters did not actively apply any treatment. Teflon could have been a treatment, but it was set by the separate manufacturers. As a result, and the experimental conditions are not constant with the level of teflon (absent or present).}
+
+\item (4 points) Suppose the teflon-coated bars corrode and crack less for both steel and iron bars. Can we say that the teflon \emph{causes} this reduction in corrosion and cracking? Why or why not? 
+
+{\color{red} No: the experimenters did not set the levels of teflon themselves. The effect of teflon may be correlated with the manufacturer,m an experimental condition.}
+
+\item (4 points) Suppose the teflon-coated bars corroded and cracked less than the ones that did not receive the teflon. Can we say that the teflon prevents corrosion and cracking? Why or why not?
+
+{\color{red} No: another possibility is that manufacturer A is just better than manufacturer B, regardless of the teflon. We can't distinguish between the two effects because the experimenters did not set the level of teflon themselves, and the level of teflon was perfectly correlated with the choice of manufacturer.}
+
+\end{enumerate}
+
+
+
+
+
+\item (20 points)
+
+
+\begin{enumerate}[a. ]
+\item (10 points)  Using the table of random digits below, select a simple random sample of 10 steel bars from a shipment of 100 from manufacturer A (see question 1). Also, select a simple random sample of 10 steel bars from a shipment of 100 from manufacturer B, continuing in the table of random digits from where you left off from the steel bars. Carefully describe how you did this.\q
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/rdigits2.png}\q
+
+\color{red}
+\begin{itemize}
+\item A bars: first, I assign a 2-digit index to each steel bar in the shipment: 00, 01, $\ldots$, 99. Next, I move along the top row of the table of random digits from left to right, selecting bars 27, 25, 23, 78, 75, 53, 67, 90, 18, and 89 for the study.
+\item B bars: first, I assign a 2-digit index to each iron bar in the shipment: 00, 01, $\ldots$, 99. Next, I continue where I left off in the random number table, moving left to right and selecting 35, 71, 46, 34, 63, 79, 17, 42, 47, and 77 for the study.
+\end{itemize}
+\color{black}
+
+
+\item (10 points) Suppose you want to vary the temperature (high or low) and see how the bars respond to the stress tests. Using a different table of random digits (below), randomize the 10 bars from manufacturer A to the two levels of temperature (5 high, 5 low). Then, do the same with the 10 bars from manufacturer B, continuing in the table of random digits from where you left off from the steel bars. Carefully describe how you did this.
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/rdigits.png}
+
+\color{red}
+\begin{itemize}
+\item First, I assign the 10 A bars in the sample an index from 0 to 9. Then, I move along the top row of the table table from left to right, selecting bars 1, 2, 5, 9, and 6 for the high temperature group. The other bars will be subjected to a low temperature.
+\item First, I assign the 10 B bars in the sample an index from 0 to 9. Then, I move along the top row of the table table from left to right, continuing where I left off from the A bars. I select bars 6, 1, 4, 0, and 5 for the high temperature group. The other bars will be in the low temperature group.
+\end{itemize}
+\color{black}
+
+
+
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+\item (20 points) Revisit the cars data from class.
+
+<<echo = F, results = "tex">>=
+  r = readRDS("../../data/rds/cars.rds")
+  library(xtable)
+  r = data.frame(mpg = r$mpg, wt = r$wt)
+  print(xtable(r), include.rownames= F, hline.after = c(0))
+@
+
+Remember:
+
+\begin{itemize}
+\item mpg is the fuel economy of the cars in miles per gallon.
+\item wt is the weight of the cars in tons.
+\end{itemize}
+
+
+Below, I fit a regression line of mpg on wt. \q
+
+
+\setkeys{Gin}{width=.75\textwidth} \includegraphics{../../fig/exam1fitb.png}
+
+
+
+
+\setkeys{Gin}{width=.75\textwidth} \includegraphics{../../fig/exam1residb.png}
+
+
+\begin{enumerate}[a. ]
+\item (4 points) Identify and interpret the slope.
+
+{\color{red} The slope is -5.344 mpg/wt. On average, the fuel economy of the cars decreases by 5.344 miles per gallon with each ton of weight added..}
+
+\item (4 points) Identify and interpret the intercept.
+
+{\color{red} The intercept is 37.385 mg/L. The model predicts that on average, a car weighing 0 tons will have a fuel economy of 37.285 mpg.}
+
+\item (4 points) What is problematic about your above interpretation of the intercept in practice?
+
+{\color{red} The intercept predicts the fuel economy of a weightless car, which does not exist.}
+
+\item  (4 points) Based on the residual plot, comment on the validity of the model.
+
+{\color{red}. Since there is no apparent pattern in the residuals, the model appears valid.}
+
+\item (4 points) Based on the normal quantile (normal QQ) plot, do the residuals look bell-shaped (normally-distributed)?
+
+{\color{red} Since the points in the normal QQ plot appear as a straight line, the residuals look normally distributed.}
+
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+\item (20 points)
+
+\begin{enumerate}[a. ]
+\item (10 points) What is the difference between a histogram and a bar plot?
+
+{\color{red} A histogram displays continuous numerical data by dividing the data into equally-sized intervals before plotting. A bar plot displays discrete or categorical data.}
+
+\item (10 points) Identify the following distributional shapes.
+
+
+\begin{enumerate}[i. ]
+
+
+
+\item  (2.5 points)  {\color{red} bell-shaped}\q
+<<echo=F,out.height = ".3\\textheight", out.width = ".3\\textwidth">>=
+ hist(rnorm(5000), xlab= "", ylab = "", main = "")
+@
+
+
+
+
+
+
+\item (2.5 points)  {\color{red} bimodal, asymmetric} \q
+
+<<echo=F, out.height = ".3\\textheight", out.width = ".3\\textwidth">>=
+ hist(c(rnorm(5000, mean = 10), rnorm(1000, mean = 14, sd = .5)), xlab= "", ylab = "", main = "")
+@
+
+\item (2.5 points) {\color{red} uniform} \q
+<<echo=F,out.height = ".3\\textheight", out.width = ".3\\textwidth">>=
+ hist(runif(5000), xlab= "", ylab = "", main = "")
+@
+
+\item  (2.5 points) {\color{red} skewed left} \q
+<<echo=F, out.height = ".3\\textheight", out.width = ".3\\textwidth">>=
+ hist(rbeta(5000, shape1 = 2, shape2 = .5), xlab= "", ylab = "", main = "")
+@
+
+
+\end{enumerate}
+
+
+
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\item (20 points) One study reported on a study of strength properties of high-performance concrete obtained by using superplasticizers and certain binders. The compressive strength of such concrete had previously been investigated, but not much was known about flexural strength (a measure of ability to resist failure in bending). Below is part of the flexural strength data in MegaPascals (MPa): \q
+
+\begin{tabular}{cccccccccccc}
+
+7.0  &7.4 & 7.7 & 7.9 & 8 &  8.1&  8.7 & 9.0 & 9.7 &11.3 &11.8 & 14
+\end{tabular}
+
+\begin{enumerate}[a. ]
+\item (10 points) Find $Q(0.25)$ and $Q(0.75)$ of the data.
+
+\color{red}
+<<echo=F, results = "tex">>=
+ 
+  data = sort( c(7.0 ,7.4 , 7.7 , 7.9 , 8,  8.1,  8.7 , 9.0 , 9.7,11.3 ,11.8, 14))
+  i = round((1:length(data) - .5)/length(data), 3)
+  library(xtable)
+  concrete = data.frame(data = data, j = 1:12, i = i)
+  colnames(concrete) = c("Data", "$i$", "$\\frac{i - .5}{12}$")
+  concrete = t(as.matrix(concrete))
+  print(xtable(concrete, digits = 3), sanitize.text.function = function(x){x}, hline.after = c(0), include.colnames=F)
+@
+
+
+\begin{align*}
+\intertext{For $Q(0.25)$:}
+i' & = np + 0.5 \\
+  &= 12 \cdot 0.25 + 0.5 \\
+  &= 3.5
+\intertext{Hence:}
+Q(0.25) &= (\lceil i' \rceil - i') x_{\lfloor i' \rfloor} + (i' - \lfloor i' \rfloor) x_{\lceil i' \rceil}\\
+& = (\lceil 3.5 \rceil - 3.5) x_{\lfloor 3.5 \rfloor} + (3.5 - \lfloor 3.5 \rfloor) x_{\lceil 3.5 \rceil} \\
+& = (4 - 3.5) x_{3} + (3.5 - 3) x_{4} \\
+& = 0.5 \cdot 7.7 + 0.5 \cdot 7.9\\
+& = 7.8
+\intertext{For $Q(0.75)$:}
+i' & = np + 0.5 \\
+  &= 12 \cdot 0.75 + 0.5 \\
+  &= 9.5
+\intertext{Hence:}
+Q(0.75) &= (\lceil i' \rceil - i') x_{\lfloor i' \rfloor} + (i' - \lfloor i' \rfloor) x_{\lceil i' \rceil}\\
+& = (\lceil 9.5 \rceil - 9.5) x_{\lfloor 9.5 \rfloor} + (9.5 - \lfloor 9.5 \rfloor) x_{\lceil 9.5 \rceil} \\
+& = (10 - 9.5) x_{9} + (9.5 - 9) x_{10} \\
+& = 0.5 \cdot 9.7 + 0.5 \cdot 11.3\\
+& = 10.5
+\end{align*}
+
+
+
+\color{black}
+\item (10 points) Make a boxplot of the data. Is the distribution symmetric? Are there any outliers?
+\color{red}
+
+\begin{itemize}
+\item The median, $Q(0.5)$, is the mean of the two middle data points, $(x_{6} + x_{7})/2 = 8.4$. 
+\item 1.5 IQR = $1.5 (10.5 - 7.8) = 4.05$
+\item $Q(0.25) - 1.5 IQR = 7.8 - 4.05 = 3.75$
+\item $Q(0.75) + 1.5 IQR = 10.5 + 4.05 = 14.55$
+\item There are no points below $Q(0.25) - 1.5 IQR $ or above $Q(0.75) + 1.5 IQR$, so there are no outliers. The boxplot is shown below. The distribution looks skewed up (skewed right), not symmetric.
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/testboxb.png}
+\end{itemize}
+
+
+
+
+
+\end{enumerate}
+\end{enumerate}
+
+\end{flushleft}
+\end{document}

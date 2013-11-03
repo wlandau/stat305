@@ -1,0 +1,389 @@
+% !TEX TS-program = knitr
+\documentclass{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{latexsym}
+\usepackage{listings}
+\usepackage{mathrsfs}
+\usepackage{natbib}
+\usepackage[nottoc]{tocbibind}
+\usepackage{rotating}
+\usepackage{url}
+
+\providecommand{\all}{\ \forall \ }
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\m}[1]{\mathbb{#1}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\p}{\newpage}
+\providecommand{\q}{$\quad$ \newline}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+%\renewcommand\bibname{References}
+%\renewcommand{\thesection}{Problem \arabic{section}}
+%\renewcommand{\thesubsection}{Part \alph{subsection}}
+\numberwithin{equation}{section}
+
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[R]{\thepage}
+\fancyhead[C]{Landau}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=blue
+}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{ 
+  language=C,                % the language of the code
+  basicstyle=\Large,           % the size of the fonts that are used for the code
+  numberstyle= \tiny \color{white},  % the style that is used for the line-numbers
+  stepnumber=2,                   % the step between two line-numbers. 
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=lrb,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text 
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=t,                   % sets the caption-position 
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{gray},       % comment style
+  stringstyle=\color{dkgreen},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*, ...},               % if you want to add more keywords to the set
+  xleftmargin=0.053in, % left horizontal offset of caption box
+  xrightmargin=-.03in % right horizontal offset of caption box
+}
+
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\parbox{\textwidth}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}\vskip-0.05in}}
+\captionsetup[lstlisting]{format = listing, labelfont = white, textfont = white}
+% For caption-free listings, comment out the 3 lines above and uncomment the 2 lines below.
+% \captionsetup{labelformat = empty, labelsep = none}
+% \lstset{frame = single}
+
+\SweaveOpts{out.width = "\\textwidth"}
+
+<<echo = F>>=
+options(width = 60) # R output width
+@
+
+\begin{document}
+\begin{flushleft}
+
+
+\Huge
+\begin{center}
+{\bf STAT 305 D Exam 1}
+\end{center} 
+\huge
+\begin{center}
+{\bf Show all your work.}
+\end{center}
+
+\normalsize
+\begin{enumerate}[1. ]
+
+
+
+
+\item (20 points) Caustic stress corrosion cracking of iron and steel has been studied because of failures around rivets in steel boilers and failures of steam rotors. A new teflon coating may reduce the corrosion behind this cracking. 10 smooth iron bars and 10 smooth steel bars were taken for the study. 5 iron bars were given the teflon coating, and 5 iron bars were left bare. Similarly, 5 steel bars were given the teflon coating and the remaining 5 were left bare. Constant load stress corrosion tests (with constant load and constant stress) were applied for the same length of time to each bar. The length of the longest crack in $\mu$m was measured for each.
+
+\begin{enumerate}[a. ]
+\item (3 points) Identify the sample (or samples).
+{\color{red}
+
+\begin{itemize}
+\item Sample 1: the 10 steel bars. 
+\item Sample 2: the 10 iron bars. 
+\end{itemize}
+}
+
+\item (3 points) Identify the population (or populations).
+
+{\color{red}
+\begin{itemize}
+\item Population 1: All the steel bars that could have been selected for the study.
+\item Population 2: All the iron bars that could have been selected for the study.
+\end{itemize}
+}
+
+\item (3 points) Identify and classify all the variables.
+
+
+{\color{red}
+\begin{itemize}
+\item Treatment variable: teflon or no teflon
+\item Blocking variable: steel or iron
+\item Response variable: length of longest crack
+\end{itemize}
+}
+
+\item (3 points) Is this study an experimental study or an observational study?
+
+{\color{red} The study is an experiment because the experimenters actively control the treatment variable of interest (teflon or no teflon) and hold the experimental conditions were either constant or randomized across levels of teflon.}
+
+\item (4 points) Suppose the teflon-coated bars corrode and crack less for both steel and iron bars. Can we say that the teflon \emph{causes} this reduction in corrosion and cracking? Why or why not? 
+
+{\color{red} Yes: the experimenters set the levels of teflon themselves, and all the experimental conditions were either constant or randomized across levels of teflon.}
+
+\item (4 points) Suppose the steel bars corrode and crack less than the iron bars in the study. Can we say that the choice of steel over iron causes this difference in corrosion and cracking? Why or why not?
+
+{\color{red} No: since the experimenters could not randomly assign bars to different materials (each bar was either already steel or already iron), the experimental conditions could have been correlated with bar material. For example, steel bars could have been brand new and the iron bars could have been old and rusty.}
+
+\end{enumerate}
+
+
+
+
+
+\item (20 points)
+
+
+\begin{enumerate}[a. ]
+\item (10 points)  Using the table of random digits below, select a simple random sample of 10 steel bars from a shipment of 100 steel bars for the study in question 1. Also, select a simple random sample of 10 iron bars from a shipment of 50 iron bars for the study, continuing in the table of random digits from where you left off from the steel bars. Carefully describe how you did this.\q
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/rdigits.png}\q
+
+\color{red}
+\begin{itemize}
+\item Steel bars: first, I assign a 2-digit index to each steel bar in the shipment: 00, 01, $\ldots$, 99. Next, I move along the top row of the table of random digits from left to right, selecting bars 12, 15, 96, 61, 44, 05, 09, 11, 34 and 46 for the study.
+\item Iron bars: first, I assign a 2-digit index to each iron bar in the shipment: 00, 01, $\ldots$, 49. Next, I continue where I left off in the random number table, moving left to right and selecting 45, 31, 36, 02, 49, 14, 10, 35, 12, and 27 for the study.
+\end{itemize}
+\color{black}
+
+
+\item (10 points) Using a different table of random digits (below), randomize the 10 steel bars to receive teflon or remain bare. Then, randomize the 10 iron bars to receive teflon or remain bare, continuing in the table of random digits from where you left off from the steel bars. Carefully describe how you did this.
+
+\color{red}
+\begin{itemize}
+\item First, I assign the 10 steel bars in the sample an index from 0 to 9. Then, I move along the top row of the table table from left to right, selecting bars 2, 7, 5, 3, and 8 to receive teflon. The other bars will remain bare.
+\item First, I assign the 10 iron bars in the sample an index from 0 to 9. Then, I move along the top row of the table table from left to right, continuing where I left off from the steel bars. I select bars 7, 5, 3, 6, and 9 to receive teflon. The other bars will remain bare.
+\end{itemize}
+\color{black}
+
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/rdigits2.png}
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+\item (20 points) Revisit the New York Rivers data from class.
+
+<<echo = F, results = "tex">>=
+  r = readRDS("../../data/rds/rivers.rds")
+  library(xtable)
+  print(xtable(r), include.rownames= F, hline.after = c(0))
+@
+
+Remember:
+
+\begin{itemize}
+\item Y is the mean nitrogen content (mg/liter).
+\item X1 is the percent agricultural land
+\item X2 is the percent forested land
+\item X3 is the percent residential land
+\item X4 is the percent commercial/industrial land
+\end{itemize}
+
+
+Below, I fit a regression line of Y on X2.
+
+
+\setkeys{Gin}{width=.75\textwidth} \includegraphics{../../fig/exam1fit.png}
+\setkeys{Gin}{width=.75\textwidth} \includegraphics{../../fig/exam1resid.png}
+\setkeys{Gin}{width=.75\textwidth} \includegraphics{../../fig/exam1residnqq.png}
+
+
+\begin{enumerate}[a. ]
+\item (4 points) Identify and interpret the slope.
+
+{\color{red} The slope is -0.0189 gm/L/\% forested land. On average, the mean nitrogen content decreases by -0.0189 gm/L for every 1\% increase in surrounding forested land.}
+
+\item (4 points) Identify and interpret the intercept.
+
+{\color{red} The intercept is 2.347 mg/L. The model predicts that on average, a river with no surrounding forested land should have a mean nitrogen content of 2.347 mg/L.}
+
+\item (4 points) The intercept predicts the nitrogen content for a river with 0\% surrounding forested land. Why might this prediction be a bad idea in practice?
+
+{\color{red} We have no data from rivers with 0\% forested land. In fact, the lowest percentage of forested land we have for a data point is 20\%. Attempting to predict at X2 = 0\% would be extrapolating far beyond the range of the data, a dangerous practice.}
+
+\item  (4 points) Based on the residual plot, comment on the validity of the model.
+
+{\color{red}. Since there is no apparent pattern in the residuals, the model appears valid.}
+
+\item (4 points) Based on the normal quantile (normal QQ) plot, do the residuals look bell-shaped (normally-distributed)?
+
+{\color{red} Since the points in the normal QQ plot appear as a straight line, the residuals look normally distributed.}
+
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+\item (20 points)
+
+\begin{enumerate}[a. ]
+\item (10 points) What is the difference between a histogram and a bar plot?
+
+{\color{red} A histogram displays continuous numerical data by dividing the data into equally-sized intervals before plotting. A bar plot displays discrete or categorical data.}
+
+\item (10 points) Identify the following distributional shapes.
+
+
+\begin{enumerate}[i. ]
+\item (2.5 points) {\color{red} uniform} \q
+<<echo=F,out.height = ".3\\textheight", out.width = ".3\\textwidth">>=
+ hist(runif(5000), xlab= "", ylab = "", main = "")
+@
+
+
+\item  (2.5 points) {\color{red} skewed right} \q
+<<echo=F, out.height = ".3\\textheight", out.width = ".3\\textwidth">>=
+ hist(rpois(5000, lambda = 3), xlab= "", ylab = "", main = "")
+@
+
+
+\item  (2.5 points)  {\color{red} bell-shaped}\q
+<<echo=F,out.height = ".3\\textheight", out.width = ".3\\textwidth">>=
+ hist(rnorm(5000), xlab= "", ylab = "", main = "")
+@
+
+
+\item (2.5 points)  {\color{red} bimodal, asymmetric} \q
+
+<<echo=F, out.height = ".3\\textheight", out.width = ".3\\textwidth">>=
+ hist(c(rnorm(5000, mean = 10), rnorm(1000, mean = 14, sd = .5)), xlab= "", ylab = "", main = "")
+@
+
+
+\end{enumerate}
+
+
+
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\item (20 points) The article ``Effects of Aggregates and Microfillers on the Flexural Properties of Concrete” (Magazine of Concrete Research, 1997: 81–98) reported on a study of strength properties of high-performance concrete obtained by using superplasticizers and certain binders. The compressive strength of such concrete had previously been investigated, but not much was known about flexural strength (a measure of ability to resist failure in bending). The accompanying data on flexural strength (in MegaPascal, MPa, where 1 Pa (Pascal) = 1.45 $\times 10^4$ psi) is part of the data that appeared in the article cited: \q
+
+\begin{tabular}{ccccccccccc}
+
+7.0  &7.4 & 7.7 & 7.8 & 7.9&  8.1&  8.7 & 9.0 & 9.7 &11.3 &11.8
+\end{tabular}
+
+\begin{enumerate}[a. ]
+\item (10 points) Find $Q(0.25)$ and $Q(0.75)$ of the data.
+
+\color{red}
+<<echo=F, results = "tex">>=
+ 
+  data = sort( c(7.0 ,7.4 , 7.7 , 7.8 , 7.9,  8.1,  8.7 , 9.0 , 9.7,11.3 ,11.8))
+  i = round((1:length(data) - .5)/length(data), 3)
+  library(xtable)
+  concrete = data.frame(data = data, j = 1:11, i = i)
+  colnames(concrete) = c("Data", "$i$", "$\\frac{i - .5}{11}$")
+  concrete = t(as.matrix(concrete))
+  print(xtable(concrete, digits = 3), sanitize.text.function = function(x){x}, hline.after = c(0), include.colnames=F)
+@
+
+
+\begin{align*}
+\intertext{For $Q(0.25)$:}
+i' & = np + 0.5 \\
+  &= 11 \cdot 0.25 + 0.5 \\
+  &= 3.25
+\intertext{Hence:}
+Q(0.25) &= (\lceil i' \rceil - i') x_{\lfloor i' \rfloor} + (i' - \lfloor i' \rfloor) x_{\lceil i' \rceil}\\
+& = (\lceil 3.25 \rceil - 3.25) x_{\lfloor 3.25 \rfloor} + (3.25 - \lfloor 3.25 \rfloor) x_{\lceil 3.25 \rceil} \\
+& = (4 - 3.25) x_{3} + (3.25 - 3) x_{4} \\
+& = 0.75 \cdot 7.7 + 0.25 \cdot 7.8\\
+& = 7.725
+\intertext{For $Q(0.75)$:}
+i' & = np + 0.5 \\
+  &= 11 \cdot 0.75 + 0.5 \\
+  &= 8.75
+\intertext{Hence:}
+Q(0.75) &= (\lceil i' \rceil - i') x_{\lfloor i' \rfloor} + (i' - \lfloor i' \rfloor) x_{\lceil i' \rceil}\\
+& = (\lceil 8.75 \rceil - 8.75) x_{\lfloor 8.75 \rfloor} + (8.75 - \lfloor 8.75 \rfloor) x_{\lceil 8.75 \rceil} \\
+& = (9 - 8.75) x_{8} + (8.75 - 8) x_{9} \\
+& = 0.25 \cdot 9 + 0.75 \cdot 9.7\\
+& = 9.525
+\end{align*}
+
+
+
+\color{black}
+\item (10 points) Make a boxplot of the data. Is the distribution symmetric? Are there any outliers?
+\color{red}
+
+\begin{itemize}
+\item The median, $Q(0.5)$, is the middle data point, $x_{6} = 8.1$. 
+\item 1.5 IQR = $1.5 (9.525 - 7.725) = 2.7$
+\item $Q(0.25) - 1.5 IQR = 7.725 - 2.7 = 5.025$
+\item $Q(0.75) + 1.5 IQR = 9.525 + 2.7 = 12.225$
+\item There are no points below $Q(0.25) - 1.5 IQR $ or above $Q(0.75) + 1.5 IQR$, so there are no outliers. The boxplot is shown below. The distribution looks skewed up (skewed right), not symmetric.
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/testbox.png}
+\end{itemize}
+
+
+
+
+
+\end{enumerate}
+\end{enumerate}
+
+\end{flushleft}
+\end{document}

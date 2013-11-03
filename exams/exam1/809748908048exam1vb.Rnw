@@ -1,0 +1,308 @@
+% !TEX TS-program = knitr
+\documentclass{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{latexsym}
+\usepackage{listings}
+\usepackage{mathrsfs}
+\usepackage{natbib}
+\usepackage[nottoc]{tocbibind}
+\usepackage{rotating}
+\usepackage{url}
+
+\providecommand{\all}{\ \forall \ }
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\m}[1]{\mathbb{#1}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\p}{\newpage}
+\providecommand{\q}{$\quad$ \newline}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+%\renewcommand\bibname{References}
+%\renewcommand{\thesection}{Problem \arabic{section}}
+%\renewcommand{\thesubsection}{Part \alph{subsection}}
+\numberwithin{equation}{section}
+
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[R]{\thepage}
+\fancyhead[C]{Landau}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=blue
+}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{ 
+  language=C,                % the language of the code
+  basicstyle=\Large,           % the size of the fonts that are used for the code
+  numberstyle= \tiny \color{white},  % the style that is used for the line-numbers
+  stepnumber=2,                   % the step between two line-numbers. 
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=lrb,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text 
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=t,                   % sets the caption-position 
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{gray},       % comment style
+  stringstyle=\color{dkgreen},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*, ...},               % if you want to add more keywords to the set
+  xleftmargin=0.053in, % left horizontal offset of caption box
+  xrightmargin=-.03in % right horizontal offset of caption box
+}
+
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\parbox{\textwidth}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}\vskip-0.05in}}
+\captionsetup[lstlisting]{format = listing, labelfont = white, textfont = white}
+% For caption-free listings, comment out the 3 lines above and uncomment the 2 lines below.
+% \captionsetup{labelformat = empty, labelsep = none}
+% \lstset{frame = single}
+
+\SweaveOpts{out.width = "\\textwidth"}
+
+<<echo = F>>=
+options(width = 60) # R output width
+@
+
+\begin{document}
+\begin{flushleft}
+
+
+\Huge
+\begin{center}
+{\bf STAT 305 D Exam 1}
+\end{center} 
+\huge
+\begin{center}
+{\bf Show all your work.}
+\end{center}
+
+\normalsize
+\begin{enumerate}[1. ]
+
+
+
+
+\item (20 points) Caustic stress corrosion cracking of iron and steel has been studied because of failures around rivets in steel boilers and failures of steam rotors. A new teflon coating may reduce the corrosion behind this cracking. 10 steel bars were taken from manufacturer A, which uses the teflon coating, and 10 were taken from manufacturer B, which does not.  Constant load stress corrosion tests (with constant load and constant stress) were applied for the same length of time to each bar. The length of the longest crack in $\mu$m was measured for each.
+
+\begin{enumerate}[a. ]
+\item (3 points) Identify the sample (or samples).
+
+\item (3 points) Identify the population (or populations).
+
+
+
+\item (3 points) Identify and classify all the variables.
+
+
+
+\item (3 points) Is this study an experimental study or an observational study?
+
+
+\item (4 points) Suppose the teflon-coated bars corrode and crack less for both steel and iron bars. Can we say that the teflon \emph{causes} this reduction in corrosion and cracking? Why or why not? 
+
+
+
+\item (4 points) Suppose the teflon-coated bars corroded and cracked less than the ones that did not receive the teflon. Can we say that the teflon prevents corrosion and cracking? Why or why not?
+
+
+
+\end{enumerate}
+
+
+
+
+
+\item (20 points)
+
+
+\begin{enumerate}[a. ]
+\item (10 points)  Using the table of random digits below, select a simple random sample of 10 steel bars from a shipment of 100 from manufacturer A (see question 1). Also, select a simple random sample of 10 steel bars from a shipment of 100 from manufacturer B, continuing in the table of random digits from where you left off from the steel bars. Carefully describe how you did this.\q
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/rdigits2.png}\q
+
+
+
+
+\item (10 points) Suppose you want to vary the temperature (high or low) and see how the bars respond to the stress tests. Using a different table of random digits (below), randomize the 10 bars from manufacturer A to the two levels of temperature (5 high, 5 low). Then, do the same with the 10 bars from manufacturer B, continuing in the table of random digits from where you left off from the steel bars. Carefully describe how you did this.
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/rdigits.png}
+
+
+
+
+
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+\item (20 points) Revisit the cars data from class. Recall:
+
+
+\begin{itemize}
+\item mpg is the fuel economy of the cars in miles per gallon.
+\item wt is the weight of the cars in tons.
+\end{itemize}
+
+
+Below, I fit a regression line of mpg on wt. \q
+
+
+\setkeys{Gin}{width=.75\textwidth} \includegraphics{../../fig/exam1fitb.png}
+
+
+
+
+\setkeys{Gin}{width=.75\textwidth} \includegraphics{../../fig/exam1residb.png}
+
+
+\begin{enumerate}[a. ]
+\item (4 points) Identify and interpret the slope.
+
+
+
+\item (4 points) Identify and interpret the intercept.
+
+
+
+\item (4 points) What is problematic about your above interpretation of the intercept in practice?
+
+
+
+\item  (4 points) Based on the residual plot, comment on the validity of the model.
+
+
+
+\item (4 points) Based on the normal quantile (normal QQ) plot, do the residuals look bell-shaped (normally-distributed)?
+
+
+
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+\item (20 points)
+
+\begin{enumerate}[a. ]
+\item (10 points) What is the difference between a histogram and a bar plot?
+
+
+\item (10 points) Identify the following distributional shapes.
+
+
+\begin{enumerate}[i. ]
+
+
+
+\item  (2.5 points) \q
+<<echo=F,out.height = ".3\\textheight", out.width = ".3\\textwidth">>=
+ hist(rnorm(5000), xlab= "", ylab = "", main = "")
+@
+
+
+
+
+
+
+\item (2.5 points)   \q
+
+<<echo=F, out.height = ".3\\textheight", out.width = ".3\\textwidth">>=
+ hist(c(rnorm(5000, mean = 10), rnorm(1000, mean = 14, sd = .5)), xlab= "", ylab = "", main = "")
+@
+
+\item (2.5 points)  \q
+<<echo=F,out.height = ".3\\textheight", out.width = ".3\\textwidth">>=
+ hist(runif(5000), xlab= "", ylab = "", main = "")
+@
+
+\item  (2.5 points)  \q
+<<echo=F, out.height = ".3\\textheight", out.width = ".3\\textwidth">>=
+ hist(rbeta(5000, shape1 = 2, shape2 = .5), xlab= "", ylab = "", main = "")
+@
+
+
+\end{enumerate}
+
+
+
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\item (20 points) One study reported on a study of strength properties of high-performance concrete obtained by using superplasticizers and certain binders. The compressive strength of such concrete had previously been investigated, but not much was known about flexural strength (a measure of ability to resist failure in bending). Below is part of the flexural strength data in MegaPascals (MPa): \q
+
+\begin{tabular}{cccccccccccc}
+
+7.0  &7.4 & 7.7 & 7.9 & 8 &  8.1&  8.7 & 9.0 & 9.7 &11.3 &11.8 & 14
+\end{tabular}
+
+\begin{enumerate}[a. ]
+\item (10 points) Find $Q(0.25)$ and $Q(0.75)$ of the data.
+
+
+
+\item (10 points) Make a boxplot of the data. Is the distribution symmetric? Are there any outliers?
+
+
+
+\end{enumerate}
+\end{enumerate}
+
+\end{flushleft}
+\end{document}

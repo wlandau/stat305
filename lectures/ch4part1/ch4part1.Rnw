@@ -1,0 +1,544 @@
+% !TEX TS-program = knitr
+\documentclass[handout]{beamer}
+
+\usetheme{Marburg}
+\setbeamercovered{dynamic}
+\setbeamertemplate{navigation symbols}{} 
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\copyright $\ $ \insertshortauthor%~~\beamer@ifempty{\insertshortinstitute}{}{(\insertshortinstitute)}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot} \insertinstitute
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+\usepackage{amsmath}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{mathrsfs}
+\usepackage{natbib}
+\usepackage{url}
+
+\providecommand{\all}{\ \forall \ }
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\m}[1]{\mathbb{#1}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\p}{\newpage}
+\providecommand{\q}{$\quad$ \newline}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+\hypersetup{colorlinks,linkcolor=,urlcolor=blue}
+\numberwithin{equation}{section}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{ 
+  language=C,                % the language of the code
+  basicstyle= \footnotesize,           % the size of the fonts that are used for the code
+  numberstyle= \tiny \color{white},  % the style that is used for the line-numbers
+  stepnumber=2,                   % the step between two line-numbers. 
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=lrb,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text 
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=t,                   % sets the caption-position 
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  %title=\lstname,                   % show the filename of files included with \lstinputlisting;
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{gray},       % comment style
+  stringstyle=\color{dkgreen},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*, ...},               % if you want to add more keywords to the set
+  xleftmargin=0.053in, % left horizontal offset of caption box
+  xrightmargin=-.03in % right horizontal offset of caption box
+}
+
+%\DeclareCaptionFont{white}{\color{white}}
+%\DeclareCaptionFormat{listing}{\parbox{\textwidth}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}\vskip-0.05in}}
+%\captionsetup[lstlisting]{format = listing, labelfont = white, textfont = white}
+%For caption-free listings, comment out the 3 lines above and uncomment the 2 lines below.
+ \captionsetup{labelformat = empty, labelsep = none}
+ \lstset{frame = single}
+
+
+<<echo = F>>=
+options(width = 50) # R output width
+knit_hooks$set(small.mar = function(before, options, envir) {
+    if (before) par(oma = c(0,0,0,0), mar=c(5,3.8,0,.1)+0.1)  # mar = c(bottom, left, top, right)
+})
+@
+
+\title{Describing Relationships Between Variables (Ch. 4)}
+\author{Will Landau}
+\date{\today}
+\institute{Iowa State University}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+ 
+ \AtBeginSection[]
+{
+   \begin{frame}
+       \frametitle{Outline}
+       \tableofcontents[currentsection]
+   \end{frame}
+}
+
+\section{Introduction}
+
+\begin{frame}[fragile]
+\frametitle{\small Pressing pressures and specimen densities for a ceramic compound}
+\scriptsize
+A mixture of $\text{Al}_2\text{O}_3$, polyvinyl alcohol, and water was prepared, dried overnight, crushed, and sieved to obtain 100 mesh size grains. These were pressed into cylinders at pressures from 2,000 psi to 10,000 psi, and cylinder densities were calculated. 
+
+<<echo=F, results="asis">>=
+ d = readRDS("../../data/rds/ceramics.rds")
+ library(xtable)
+ colnames(d) = c("x (pressure in psi)", "y (density in g/cc)")
+ print(xtable(d), include.rownames=F,hline.after=c(0))
+@
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{\small Scatterplot: ceramics data}
+
+\begin{center}
+<<echo=F, fig.width = 10, fig.height=6, out.height = ".6\\textheight", out.width = ".8\\textwidth", small.mar = T>>=
+ par(cex = 2)
+ plot(x= d[[1]], y = d[[2]], xlab = "x (pressure in psi)", ylab = "y (density in g/cc)", main = "")
+@
+\end{center}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{}
+\begin{center}
+<<echo=F, fig.width = 10, fig.height=6, out.height = ".6\\textheight", out.width = ".8\\textwidth", small.mar = T>>=
+ par(cex = 2)
+ plot(x= d[[1]], y = d[[2]], xlab = "x (pressure in psi)", ylab = "y (density in g/cc)", main = "")
+ d = data.frame( x = d[[1]], y = d[[2]])
+ abline(lm(y~x, data = d), col = "blue", lwd = 2)
+line = lm(y~x, data = d)
+cf = coef(line)
+cf[1] = round(cf[1], 3)
+cf[2] = round(cf[2], 8)
+txt = paste("y ~", cf[1], "+", cf[2], "x")
+text(x = 4000, y = 2.75, labels = txt, col = "blue")
+@
+\end{center}
+
+\begin{itemize}
+\item The line,  $y \approx 2.375 + 4.867 \times 10^{-5} x$, is the {\bf regression line} fit to the data.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Why fit a regression line?}
+\begin{enumerate}[1. ]
+\pause \item To predict future values of $y$ based on $x$.
+\begin{itemize}
+\pause \item I.e., a new ceramic under pressure $x = 5000$ psi should have a density of $2.375 + 4.867 \times 10^{-5} \cdot 5000 = 2.618$ g/cc. 
+\end{itemize}
+\pause \item To characterize the relationship between $x$ and $y$ in terms of strength, direction, and shape.
+\begin{itemize}
+\pause \item In the ceramics data, density has a strong, positive, linear association with $x$. 
+\pause \item On average, the density increases by $4.867 \times 10^{-5}$ g/cc for every increase in pressure of 1 psi.
+\end{itemize}
+\end{enumerate}
+\end{frame}
+
+\section{Fitting a regression line}
+
+\begin{frame}
+\frametitle{Fitting a linear regression line}
+\begin{itemize}
+\pause \item For a response variable $y$ and a predictor variable $x$, we declare:
+\pause \begin{align*}
+y \approx b_0 + b_1 x
+\end{align*}
+\pause \item and then calculate the intercept $b_0$ and slope $b_1$ using {\bf least squares}.
+\begin{itemize}
+\pause \item We apply the {\bf principle of least squares}: that is, the best-fit line is given by minimizing the {\bf loss function} in terms of $b_0$ and $b_1$:
+\pause \begin{align*}
+S(b_0, b_1) = \sum_{i = 1}^n (y_i - \wh{y}_i)^2
+\end{align*} 
+\pause \item Here, $\wh{y}_i  = b_0 + b_1 x_i$
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{\small Minimize $\sum_{i = 1}^n (y_i - \wh{y}_i)^2$ to get the line as close as possible to the points.}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/lossfunplot.png}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{How to apply least squares to get the regression line}
+\begin{itemize}
+\pause \item From the principle of least squares, one can derive the {\bf normal equations}:
+\begin{align*}
+\uncover<2->{n b_0 + b_1 \sum_{i = 1}^n x_i} &= \uncover<2->{\sum_{i = 1}^n y_i} \\
+\uncover<3->{b_0 \sum_{i = 1}^n x_i + b_1 \sum_{i = 1}^n x_i^2} &= \uncover<3->{\sum_{i = 1}^n x_i y_i}
+\end{align*}
+\pause \pause \item and then solve for $b_0$ and $b_1$:
+\begin{align*}
+\color{blue} \uncover<5->{b_1 = \frac{\sum(x_i - \ov{x})(y_i - \ov{y})}{\sum(x_i - \ov{x})^2}} \qquad \uncover<6->{b_0 = \ov{y}- b_1 \ov{x}}
+\end{align*}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Example: plastics hardness data} \small
+Eight batches of plastic are made. From each batch one test item is molded. At a given time (in hours), it hardness is measured in units (assume freshly-melted plastic has a hardness of 0 units). The following are the 8 measurements and times.
+
+\begin{minipage}[b]{0.47\linewidth} 
+<<echo=F, results="asis">>=
+  r = readRDS("../../data/rds/plastics.rds")
+  library(xtable)
+  op <- par(mfrow=c(1,2))
+  print(xtable(r, floating=T), include.rownames=F, hline.after = c(0))
+@
+\end{minipage}
+\begin{minipage}[b]{0.47\linewidth} 
+<<echo=F, smallmar = T>>=
+  par(cex = 2)
+  plot(hardness ~ time, xlab = "Time (hours)", ylab ="Hardness (units)", data = r)
+@
+\end{minipage}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Fitting the line} \scriptsize
+\begin{itemize}
+\pause \item $\ov{x} = \Sexpr{mean(r[[1]])}$
+\pause \item $\ov{y} = \Sexpr{mean(r[[2]])}$ \pause
+<<echo=F, results="asis">>=
+  xm = r[[1]] - mean(r[[1]])
+  ym = r[[2]] - mean(r[[2]])
+  xmsq = xm^2
+  dp = xm*ym
+  calc = data.frame(x = r[[1]], y = r[[2]],  xm = xm, ym = ym,  dp = dp, xmsq = xmsq)
+  colnames(calc) = c("x", "y", "$x_i - \\ov{x}$",  "$y_i - \\ov{y}$", "$(x_i - \\ov{x})(y_i - \\ov{y})$", "$(x_i - \\ov{x})^2$")
+   print(xtable(calc), include.rownames=F, hline.after = c(0), sanitize.text.function = function(x){x})
+@
+\pause \item $\sum (x_i - \ov{x})(y_i - \ov{y}) = \Sexpr{round(calc[1,5], 2)} +  \Sexpr{round(calc[2,5], 2)}  + \cdots  \Sexpr{round(calc[8,5], 2)}  =  \Sexpr{num <- sum(calc[,5]); num} $
+\pause \item $\sum (x_i - \ov{x})^2= \Sexpr{round(calc[1,6], 2)} +  \Sexpr{round(calc[2,6], 2)}  + \cdots  \Sexpr{round(calc[8,6], 2)}  =  \Sexpr{denom <- sum(calc[,6]); denom} $
+\pause \item $b_1 = \frac{\Sexpr{num}}{\Sexpr{denom}} = \Sexpr{b1 <- round(num/denom, 2); b1}$
+\pause \item $b_0 = \ov{y} - b_1 \ov{x} = \Sexpr{mean(r[[2]])} - \Sexpr{b1} \cdot \Sexpr{mean(r[[1]])} = \Sexpr{b0 <- round(277.125 - b1*51,2 ); b0}$
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Plot the line to check the fit.} \small
+\begin{center}
+<<echo=F, small.mar = T, out.width = "0.8\\textwidth", out.height = "0.8\\textheight">>=
+par(cex = 1.75)
+plot(hardness ~ time, xlab = "Time (hours)", ylab ="Hardness (units)", data = r)
+abline(a = 153.19, b = 2.43, col = "blue")
+text(x = 40, y = 325, labels = paste("y ~", b0, "+", b1, "x"), col = "blue")
+@
+
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Interpret the model terms}
+\begin{itemize}
+\pause \item $b_1 = 2.43$ means that on average, the plastic hardens 2.43 more units for every additional hour it is allowed to harden.
+\pause \item $b_0 = 153.19$ means that at the very beginning of the hardening process (time = 0 hours), the plastics had a hardness of 153.19 on average, IF the model is still correct around time 0.
+\begin{itemize}
+\pause \item But we know that the plastics were completely molten at the very beginning, with a hardness of 0.
+\pause \item Don't {\bf extrapolate}: i.e., predict $y$ values beyond the range of the $x$ data.
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Checking a fitted line}
+
+\begin{enumerate}[1. ]
+\pause \item Is the model useful?
+\begin{itemize}
+\pause \item How closely do the points cluster around the line?
+\pause \item How strong is the linear relationship between $x$ and $y$?
+\pause \item How much variation in $y$ can be explained by the fitted line?  
+\pause \item How well can the fitted line predict future values of $y$?
+\pause \item Is the model \emph{precise}?
+\end{itemize}
+\pause \item Is the model valid?
+\begin{itemize}
+\pause \item Should we really be using a straight line to explain $y$ using $x$, or would some other equation (like a parabola) be better?
+\pause \item Does $y$ deviate from the fitted line in some systematic way?
+\pause \item Is the model \emph{valid}?
+\end{itemize}
+\end{enumerate}
+\end{frame}
+
+
+\section{Is the model useful?}
+
+\begin{frame}
+\frametitle{Linear correlation: a measure of the usefulness of a fitted line}
+\begin{itemize}
+\pause \item {\bf Linear correlation}:
+\pause \begin{align*}
+r = \frac{\sum(x_i - \ov{x})(y_i - \ov{y})}{\sqrt{\sum (x_i - \ov{x})^2 \sum (y_i - \ov{y})^2}}
+\end{align*}
+\pause \item As it turns out:
+\pause \begin{align*}
+r = b_1\frac{s_x}{s_y}
+\end{align*}
+\pause where $s_x$ is the standard deviation of the $x_i$'s and $x_y$ is the standard deviation of the $y_i$'s. 
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Facts about linear correlation}
+\begin{itemize}
+\pause \item $-1 \le r \le 1$
+\pause \item $r < 0$ means a negative slope, $r > 0$ means a positive slope
+\pause \item High $|r|$ means $x$ and $y$ have a strong linear relationship (high correlation), and low $|r|$ implies a weak linear relationship (low correlation).
+\end{itemize}
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/diffcorrs.png}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Correlation in the ceramics data}
+\begin{center}
+<<echo=F, fig.width = 10, fig.height=6, out.height = ".6\\textheight", out.width = ".8\\textwidth", small.mar = T>>=
+ par(cex = 2)
+ plot(x= d[[1]], y = d[[2]], xlab = "x (pressure in psi)", ylab = "y (density in g/cc)", main = "")
+ d = data.frame( x = d[[1]], y = d[[2]])
+ abline(lm(y~x, data = d), col = "blue", lwd = 2)
+line = lm(y~x, data = d)
+cf = coef(line)
+cf[1] = round(cf[1], 3)
+cf[2] = round(cf[2], 8)
+txt = paste("y ~", cf[1], "+", cf[2], "x")
+text(x = 4000, y = 2.75, labels = txt, col = "blue")
+@
+\end{center}
+\begin{itemize}
+\pause \item $s_x = \Sexpr{sd( d[[1]])}$, $s_y= \Sexpr{sd( d[[2]])}$  $b_1 = 4.867 \cdot 10^{-5}$
+\pause \item $r = b_1 \frac{s_x}{s_y} $  = \Sexpr{cf[2]} $\frac{\Sexpr{sd(d[[1]])}}{\Sexpr{sd(d[[2]])}}$ = \Sexpr{cf[2] * sd(d[[1]])/ sd(d[[2]])}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Correlation in the plastics data} \scriptsize
+\begin{itemize}
+\pause \item $\ov{x} = \Sexpr{mean(r[[1]])}$
+\pause \item $\ov{y} = \Sexpr{mean(r[[2]])}$ \pause 
+<<echo=F, results="asis">>=
+  xm = r[[1]] - mean(r[[1]])
+  ym = r[[2]] - mean(r[[2]])
+  xmsq = xm^2
+  ymsq = ym^2
+  dp = xm*ym
+  calc = data.frame(x = r[[1]], y = r[[2]],  xm = xm, ym = ym, xmsq = xmsq, ymsq = ymsq, dp = dp)
+  colnames(calc) = c("x", "y", "$x_i - \\ov{x}$",  "$y_i - \\ov{y}$", "$(x_i - \\ov{x})^2$", "$(y_i - \\ov{y})^2$", "$\\Delta x \\Delta y$")
+   print(xtable(calc), include.rownames=F, hline.after = c(0), sanitize.text.function = function(x){x})
+@
+\pause \item $\sum (x_i - \ov{x})(y_i - \ov{y}) = 895.39 + 963.38 + \cdots + 139.38 = \Sexpr{sum(calc[[7]])}$
+\pause \item $\sum (x_i - \ov{x})^2 = 361 + 441 + \cdots + 25 = \Sexpr{sum(calc[[5]])}$
+\pause \item $\sum (y_i - \ov{y})^2 = 2220.77 + 2104.52 + \cdots + 777.02 = $ \Sexpr{sum(ymsq)}
+\pause \item $r = \frac{ (x_i - \ov{x})(y_i - \ov{y})  }{\sqrt{  (x_i - \ov{x})^2   (y_i - \ov{y})^2  }} = \frac{7765}{\sqrt{3192 \cdot 1.9683 \times 10^4}} = $ \Sexpr{7765/sqrt(3192 * 1.9683e4)}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{\small CAUTION: the data may be highly correlated even if the \emph{linear} correlation, $r$, is low.}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/corr0.png}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Coefficient of determination} \scriptsize
+\begin{itemize}
+\pause \item {\bf Coefficient of determination}: another measure of the usefulness of a fitted line, defined by:
+\pause \begin{align*}
+R^2 = \frac{\sum(y_i - \ov{y})^2 - \sum(y_i - \wh{y}_i)^2}{\sum(y_i - \ov{y})^2}
+\end{align*}
+\pause where $y_i = b_0 + b_1 x_i$. 
+\pause \item Fortunately,
+\begin{align*} \color{blue}
+R^2 = r^2
+\end{align*}
+\pause \item Interpretation: $R^2$ is the fraction of variation in the response variable ($y$) explained by the fitted line.
+\pause \item Ceramics data: $R^2 = r^2 = 0.9911^2 = \Sexpr{0.9911^2}$, so  \Sexpr{round(0.9911^2 * 100, 2)}\% of the variation in density is explained by a linear equation in terms of pressure. Hence, the line is useful for predicting density from pressure.
+\pause \item Plastics data: $R^2 = r^2 = 0.9796^2 = \Sexpr{0.9796^2}$, so  \Sexpr{round(0.9796^2 * 100, 2)}\% of the variation in hardness is explained by a linear equation in terms of time. Hence, so the line is useful for predicting hardness from time.
+
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{\small $R^2$ measures \emph{usefulness} (or precision), not validity.}
+\begin{center}
+\begin{itemize}
+\item $x$ and $y$ can have a true linear relationship despite a low $R^2$
+\end{itemize}
+<<echo = F, small.mar = T, out.height = ".6\\textheight", out.width = ".6\\textwidth">>=
+par(cex = 2)
+ln = function(x){37*x -10}
+x = rnorm(n = 500, mean = 10, sd = 12)
+y = rnorm(n = 500, mean = ln(x), sd = 500)
+plot(y~x)
+abline(lm(y~x), lwd = 2, col = "blue")
+@
+\end{center}
+\begin{itemize}
+\item $R^2 = $ \Sexpr{cor(x, y)^2}
+\end{itemize}
+\end{frame}
+
+
+
+\section{Is the model valid?}
+
+\begin{frame}[fragile]
+\frametitle{\small CAUTION: Sometimes, the true relationship between $x$ and $y$ is not linear, despite a high $R^2$}
+\begin{center}
+<<echo = F, small.mar = T, out.height = ".6\\textheight", out.width = ".6\\textwidth">>=
+par(cex = 2)
+ln = function(x){-.75* x^2 + 87*x -10}
+x = rnorm(n = 500, mean = 10, sd = 10)
+y = rnorm(n = 500, mean = ln(x), sd = 10)
+plot(y~x)
+abline(lm(y~x), lwd = 2, col = "blue")
+@
+\end{center}
+\begin{itemize}
+\item $R^2 = $ \Sexpr{cor(x, y)^2}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{\small Residuals: a way to check the validity of a fitted line}
+\begin{itemize}
+\pause \item {\bf Residuals}: numbers $e_i$ of the form: 
+\begin{align*}
+\uncover<2->{e_i} &\uncover<2->{= y_i - \wh{y_i}}  \\
+&\uncover<3->{=  y_i - (b_0 + b_1 x_i)}
+\end{align*}
+\pause \pause \item Instead of:
+\begin{align*}
+y_i &\approx b_0 + b_1 x_i
+\intertext{\uncover<5->{or:}}
+\uncover<5->{\wh{y_i}} &\uncover<5->{=b_0 + b_1 x_i}
+\intertext{\uncover<6->{you can now write:}}
+\uncover<6->{y_i} &\uncover<6->{= b_0 + b_1 x_i + e_i}
+\end{align*}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{\small What do residuals mean? (Scatterplot: heights and weights of 10 elderly men)}
+\begin{center}
+\setkeys{Gin}{width=.6\textwidth} \includegraphics{../../fig/residmeaning}
+\end{center}
+\begin{itemize}
+\item Residuals are the vertical distances between the points and the fitted line.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Residuals: heights and weights of elderly men data}
+<<echo=F, results="asis">>=
+  r = readRDS("../../data/rds/elderlymen.rds")
+  l = lm(weight~height, data = r)
+  r = cbind(r, fitted = l$fitted.values, residuals = l$residuals)
+  
+  disp = cbind(r[,2], r[,c(1,3,4)])
+  colnames(disp) = c( "$x_i$ (height in cm)", "$y_i$ (weight in kg)","$\\wh{y}_i$", "$e_i = y_i - \\wh{y}_i$")
+   print(xtable(disp), include.rownames=F, hline.after = c(0), sanitize.text.function = function(x){x})
+@
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{\small Plots of residuals} \scriptsize
+\begin{center}
+<<echo=F, fig.height = 5, out.height = ".35\\textheight", out.width = "0.6\\textwidth", small.mar = T>>=
+par(cex = 1.5)
+plot(disp[[4]]~disp[[1]], xlab = "x (height in cm)", ylab = "Residuals")
+abline(h = 0)
+@
+<<echo=F, fig.height = 5, out.height = ".35\\textheight", out.width = "0.6\\textwidth", small.mar = T>>=
+par(cex = 1.5)
+plot(disp[[4]]~disp[[3]], xlab = "yhat (fitted values)", ylab = "Residuals")
+abline(h = 0)
+@
+\end{center}
+
+The model fits well since there is no discernible pattern in the residuals when plotted.
+\end{frame}
+
+\begin{frame}
+\frametitle{\small Residual plots and validity}
+\begin{itemize}
+\pause \item Left: data that don't fit a line
+\pause \item Right: the plot of residuals on $x$
+\begin{itemize}
+\pause \item The residuals show a nonlinear pattern in the residual plot.
+\pause \item Hence, the fitted line is not a valid model.
+\end{itemize}
+\end{itemize}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/residbad.png}
+\end{frame}
+
+\begin{frame}
+\frametitle{\small More residual plots and patterns} \scriptsize
+\begin{itemize}
+\pause \item All patterns are bad in plots of residual vs. fitted values, $x$, time, etc.
+\begin{center}
+\setkeys{Gin}{width=.75\textwidth} \includegraphics<2->{../../fig/residpatterns.png}
+\end{center}
+\pause \pause \item When we get to inference, we want to make sure the residuals have a bell-shaped distribution:
+\begin{center}
+\setkeys{Gin}{width=.4\textwidth}  \includegraphics<4->{../../fig/residqqnorm.png}
+\end{center}
+\pause \item This normal QQ plot shows that the residuals are roughly bell-shaped, which is good.
+\end{itemize}
+
+\end{frame}
+
+
+\end{document}

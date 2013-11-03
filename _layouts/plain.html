@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="Author" content="Will Landau (landau@iastate.edu)"/>
+  <meta name="Description" content="Course website: STAT 305, Engineering Statistics"/>
+  <meta name="Keywords" content="Statistics, Iowa State University" />
+  <meta name="Robots" content="index,follow" />
+  <link rel="stylesheet" type="text/css" href="http://wlandau.github.com/css/wml-custom.css"/>
+  <link rel="icon" type="image/png" href="http://wlandau.github.com/img/me.jpg"/>
+  
+  <script>
+    $(window).load(function(){
+      $("#main").height($(document).height() - $('#header').height() - $('#navbar').height() - $('#footer').height());
+    });
+  </script>
+  
+  <title>{{page.title}} - Will Landau - Iowa State University</title>
+</head>
+<body>
+
+<br/><br/>
+<div class="float">
+
+{{content}}
+
+</div>
+
+</body>
+</html>
+
