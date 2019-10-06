@@ -1,0 +1,157 @@
+% !TEX TS-program = knitr
+\documentclass{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{latexsym}
+\usepackage{listings}
+\usepackage{mathrsfs}
+\usepackage{natbib}
+\usepackage[nottoc]{tocbibind}
+\usepackage{url}
+
+\providecommand{\all}{\ \forall \ }
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\m}[1]{\mathbb{#1}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\p}{\newpage}
+\providecommand{\q}{$\quad$ \newline}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+%\renewcommand\bibname{References}
+%\renewcommand{\thesection}{Problem \arabic{section}}
+%\renewcommand{\thesubsection}{Part \alph{subsection}}
+\numberwithin{equation}{section}
+
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[R]{\thepage}
+\fancyhead[C]{Landau}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=blue
+}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{ 
+  language=C,                % the language of the code
+  basicstyle=\Large,           % the size of the fonts that are used for the code
+  numberstyle= \tiny \color{white},  % the style that is used for the line-numbers
+  stepnumber=2,                   % the step between two line-numbers. 
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=lrb,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text 
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=t,                   % sets the caption-position 
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{gray},       % comment style
+  stringstyle=\color{dkgreen},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*, ...},               % if you want to add more keywords to the set
+  xleftmargin=0.053in, % left horizontal offset of caption box
+  xrightmargin=-.03in % right horizontal offset of caption box
+}
+
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\parbox{\textwidth}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}\vskip-0.05in}}
+\captionsetup[lstlisting]{format = listing, labelfont = white, textfont = white}
+% For caption-free listings, comment out the 3 lines above and uncomment the 2 lines below.
+% \captionsetup{labelformat = empty, labelsep = none}
+% \lstset{frame = single}
+
+\SweaveOpts{out.width = "\\textwidth"}
+
+<<echo = F>>=
+options(width = 60) # R output width
+@
+
+\begin{document}
+\begin{flushleft}
+\begin{center} \LARGE
+STAT 305 D Homework 7
+\end{center}
+\begin{center} \Large
+Due March 28, 2013 at 12:40 PM in class
+\end{center}
+\normalsize
+
+
+\begin{enumerate}[1. ]
+
+\item Vardeman and Jobe chapter 5 section 4 problem 1 (page 300)
+
+Explain in qualitative terms what it means for two random variables X and Y to be independent. What advantage is there when X and Y can be described as independent?
+
+\setkeys{Gin}{width=.7\textwidth} \includegraphics{../../fig/h7p1sol.png}
+
+\item Vardeman and Jobe chapter 5 section 4 problem 2 (page 300)
+
+\setkeys{Gin}{width=.6\textwidth} \includegraphics{../../fig/h7p2.png}
+\setkeys{Gin}{width=.7\textwidth} \includegraphics{../../fig/h7p2sol1.png}
+\setkeys{Gin}{width=.7\textwidth} \includegraphics{../../fig/h7p2sol2.png}
+
+\item \q
+\setkeys{Gin}{width=.8\textwidth} \includegraphics{../../fig/h7p3sol1.png}
+\setkeys{Gin}{width=.8\textwidth} \includegraphics{../../fig/h7p3sol2.png}
+\setkeys{Gin}{width=.8\textwidth} \includegraphics{../../fig/h7p3sol3.png}
+\setkeys{Gin}{width=.8\textwidth} \includegraphics{../../fig/h7p3sol4.png}
+\setkeys{Gin}{width=.8\textwidth} \includegraphics{../../fig/h7p3sol5.png}
+\setkeys{Gin}{width=.8\textwidth} \includegraphics{../../fig/h7p3sol6.png}
+\setkeys{Gin}{width=.8\textwidth} \includegraphics{../../fig/h7p3sol7.png}
+
+\item \q
+\setkeys{Gin}{width=.8\textwidth} \includegraphics{../../fig/h7p4sol1.png}
+\setkeys{Gin}{width=.8\textwidth} \includegraphics{../../fig/h7p4sol2.png}
+\setkeys{Gin}{width=.8\textwidth} \includegraphics{../../fig/h7p4sol3.png}
+\setkeys{Gin}{width=.8\textwidth} \includegraphics{../../fig/h7p4sol4.png}
+\setkeys{Gin}{width=.8\textwidth} \includegraphics{../../fig/h7p4sol5.png}
+
+
+
+\item \q
+\setkeys{Gin}{width=.6\textwidth} \includegraphics{../../fig/h7p5p1-1.png}
+\setkeys{Gin}{width=.7\textwidth} \includegraphics{../../fig/h7p5sol.png}
+
+
+
+
+\item Weekly feedback. You get full credit as long as you write something.
+\begin{enumerate}[a. ]
+\item Is there any aspect of the subject matter that you currently struggle with? If so, what specifically do you find difficult or confusing? The more detailed you are, the better I can help you.
+
+{\color{red} You got full credit as long as you wrote something.}
+\item Do you have any questions or concerns about the material, class logistics, or anything else? If so, fire away.
+{\color{red} You got full credit as long as you wrote something.}
+\end{enumerate}
+\end{enumerate}
+\end{flushleft}
+\end{document}

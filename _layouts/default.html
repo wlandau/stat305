@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="Author" content="Will Landau (landau@iastate.edu)"/>
+  <meta name="Description" content="Course website: STAT 305, Engineering Statistics"/>
+  <meta name="Keywords" content="Statistics, Iowa State University" />
+  <meta name="Robots" content="index,follow" />
+  <link rel="stylesheet" type="text/css" href="http://wlandau.github.com/css/wml-custom.css"/>
+  <link rel="icon" type="image/png" href="http://wlandau.github.com/img/me.jpg"/>
+  
+  <script>
+    $(window).load(function(){
+      $("<div style=\"clear:both;\"></div>").insertAfter("h1");
+      $("<div style=\"clear:both;\"></div>").insertAfter("h2");
+      $("<div style=\"clear:both;\"></div>").insertAfter("h3");
+      $("<div style=\"clear:both;\"></div>").insertAfter("h4");
+      
+      if($('#disqus_thread').length == 0)
+        $('#main').outerHeight(Math.max(
+          $(window).outerHeight() - $('#navbar').outerHeight() - $('#footer').outerHeight(),
+          $('#main-content').outerHeight() 
+        ));
+    });
+    
+    window.onresize = function(){
+      if($('#disqus_thread').length == 0)
+        $('#main').height(Math.max(
+          $(window).outerHeight() - $('#navbar').outerHeight() - $('#footer').outerHeight(),
+          $('#main-content').outerHeight()
+        ));
+    };
+  </script>
+  
+  <title>{{page.title}} - Will Landau - Iowa State University</title>
+</head>
+<body>
+
+<div id="navbar">
+<div class="float">
+<div id="navbar-content">
+  <a href="{{page.root}}index.html" class="navlink" {% if page.current == "syllabus" %} id="current" {% endif %}>Syllabus</a>
+  <a href="{{page.root}}materials.html" class="navlink" {% if page.current == "materials" %} id="current" {% endif %}>Materials</a>
+  <a href="https://stat305d-spring2013.wikispaces.com/home" class="navlink">Wiki</a>
+  <a href="http://wlandau.github.com" class="navlink">Instructor Home</a>
+</div>
+</div>
+</div>
+
+<div id="main">
+<div class="float">
+<div id="main-content">
+
+{{content}}
+
+</div>
+</div>
+</div>
+
+<div id="footer">
+<div class="float">
+<div id="footer-content">
+  <div style="float:right;">
+    &copy; <a href="http://wlandau.github.com/index.html">Will Landau</a> 2012 - 2013
+  </div>
+  Powered by <a href="http://jekyllrb.com/">Jekyll</a> on <a href="https://github.com/">GitHub</a></div>
+</div>
+</div>
+
+</body>
+</html>
+

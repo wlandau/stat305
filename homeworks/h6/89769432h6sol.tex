@@ -1,0 +1,286 @@
+% !TEX TS-program = knitr
+\documentclass{article}\usepackage{graphicx, color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\definecolor{fgcolor}{rgb}{0.2, 0.2, 0.2}
+\newcommand{\hlnumber}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlfunctioncall}[1]{\textcolor[rgb]{0.501960784313725,0,0.329411764705882}{\textbf{#1}}}%
+\newcommand{\hlstring}[1]{\textcolor[rgb]{0.6,0.6,1}{#1}}%
+\newcommand{\hlkeyword}[1]{\textcolor[rgb]{0,0,0}{\textbf{#1}}}%
+\newcommand{\hlargument}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
+\newcommand{\hlcomment}[1]{\textcolor[rgb]{0.180392156862745,0.6,0.341176470588235}{#1}}%
+\newcommand{\hlroxygencomment}[1]{\textcolor[rgb]{0.43921568627451,0.47843137254902,0.701960784313725}{#1}}%
+\newcommand{\hlformalargs}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
+\newcommand{\hleqformalargs}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
+\newcommand{\hlassignement}[1]{\textcolor[rgb]{0,0,0}{\textbf{#1}}}%
+\newcommand{\hlpackage}[1]{\textcolor[rgb]{0.588235294117647,0.709803921568627,0.145098039215686}{#1}}%
+\newcommand{\hlslot}[1]{\textit{#1}}%
+\newcommand{\hlsymbol}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlprompt}[1]{\textcolor[rgb]{0.2,0.2,0.2}{#1}}%
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{latexsym}
+\usepackage{listings}
+\usepackage{mathrsfs}
+\usepackage{natbib}
+\usepackage[nottoc]{tocbibind}
+\usepackage{url}
+
+\providecommand{\all}{\ \forall \ }
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\m}[1]{\mathbb{#1}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\p}{\newpage}
+\providecommand{\q}{$\quad$ \newline}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+%\renewcommand\bibname{References}
+%\renewcommand{\thesection}{Problem \arabic{section}}
+%\renewcommand{\thesubsection}{Part \alph{subsection}}
+\numberwithin{equation}{section}
+
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[R]{\thepage}
+\fancyhead[C]{Landau}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=blue
+}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{ 
+  language=C,                % the language of the code
+  basicstyle=\Large,           % the size of the fonts that are used for the code
+  numberstyle= \tiny \color{white},  % the style that is used for the line-numbers
+  stepnumber=2,                   % the step between two line-numbers. 
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=lrb,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text 
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=t,                   % sets the caption-position 
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{gray},       % comment style
+  stringstyle=\color{dkgreen},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*, ...},               % if you want to add more keywords to the set
+  xleftmargin=0.053in, % left horizontal offset of caption box
+  xrightmargin=-.03in % right horizontal offset of caption box
+}
+
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\parbox{\textwidth}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}\vskip-0.05in}}
+\captionsetup[lstlisting]{format = listing, labelfont = white, textfont = white}
+% For caption-free listings, comment out the 3 lines above and uncomment the 2 lines below.
+% \captionsetup{labelformat = empty, labelsep = none}
+% \lstset{frame = single}
+
+
+
+
+\begin{document}
+\begin{flushleft}
+\begin{center} \LARGE
+STAT 305 D Homework 6
+\end{center}
+\begin{center} \Large
+Due March 7, 2013 at 12:40 PM in class
+\end{center}
+\color{red}
+Remember: $\mu$ denotes $E(X)$, $\sigma^2$ denotes Var($X$),m and $\sigma$ denotes SD$(X)$.\color{black}
+\normalsize
+
+
+\begin{enumerate}[1. ]
+
+\item 
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p1.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p1sol.png}
+
+\item 
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p2.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p2sol.png}
+
+\color{red}
+A more thorough explanation of part (d): \q
+Let $Y = g(X)$. Then:
+\begin{align*}
+g(X) = \begin{cases}
+0 & X \le 500 \\
+0.8(x - 500) & 500 < X \le m \\
+X - 2500 & X > m
+\end{cases} 
+\end{align*}
+where m is the value of $X$ corresponding to the maximum out-of-pocket expense of \$2500. This maximum individual  out-of-pocket expense is equal to the \$500 deductible plus the 20\% of the rest not paid by insurance:
+\begin{align*}
+2500 &= 500 + 0.2(m - 500)
+\end{align*}
+Hence:
+\begin{align*}
+m = 10500
+\end{align*}
+and $Y$ (a.k.a., $g(X)$) becomes:
+\begin{align*}
+g(X) = \begin{cases}
+0 & X \le 500 \\
+0.8(x - 500) &500 <  X \le 10500 \\
+X - 2500 & X > 10500
+\end{cases} 
+\end{align*}
+The question asks for $E(Y)$. This is $E(g(X))$:
+\begin{align*}
+E(g(X)) &= \int_{-\infty}^\infty g(x)f(x) dx \\
+&= \int_{-\infty}^0 0 \cdot 0 dx + \int_0^{500} 0 \cdot 2.4(1 + x/2.5)^{-7} dx \\
+& \qquad + \int_{500}^{10500} 0.8(x - 500) \cdot 2.4(1 + x/2.5)^{-7}dx \\
+& \qquad + \int_{10500}^\infty (x - 2500)\cdot 2.4(1 + x/2.5)^{-7} dx \\
+&= \int_{500}^{10500} 1.92(x - 500)(1 + x/2.5)^{-7}dx + \int_{10500}^\infty 2.4 (x-2500) (1 + x/2.5)^{-7} dx \\
+&\approx 1.22 \times 10^{-12} + 1.84 \times 10^{-18} \\
+&= 1.22 \times 10^{-12}
+\end{align*}
+Those greedy insurance companies...
+\color{black}
+
+\item 
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p2p5.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p2p5sol.png}
+
+
+\item 
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p3.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p3sol.png}
+
+
+\item Find the following:
+\begin{enumerate}[a. ]
+\item 
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p4a.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p4asol.png}
+
+\item 
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p4b.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p4bsol.png}
+
+\item 
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p4c.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p4csol.png}
+
+\item 
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p4d.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p4dsol.png}
+
+\item 
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p4e.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p4esol.png}
+
+\item 
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p4f.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p4fsol.png}
+
+\item 
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p4g.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p4gsol.png}
+
+\item 
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p4h.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h6p4hsol.png}
+\end{enumerate}
+
+
+
+\item Review the notation explained on the last slide of the Feb 28 lecture. Then, find the following.
+
+\begin{enumerate}[a. ]
+\item $z_{0.8}$ {\color{red} = Q(0.8) = 0.84}
+\item $t_{3, 0.9}$ {\color{red} = 1.638}
+\item $\chi^2_{2, 0.95}$ {\color{red} = 5.991}
+\item $F_{4, 2, 0.99}$ {\color{red} = 99.249}
+\end{enumerate}
+
+
+\item Let $S \sim$ SquigglyJoe($5, 3, \xi, \xi_\xi, \xi_{\xi_\xi}^{\xi^{\xi}}, \xi_{{\xi_{\xi_\xi}}}^{\xi^{\xi_{\xi}}})$, where $E(S) = 42$ and $Var(S) = 101$.  Find the following:
+
+\begin{enumerate}[a. ]
+\item E(5 S + 7) {\color{red} = 5 E(S) + 7 = $5 \cdot 42 + 7 = 217$}
+\item Var(10S -2)  {\color{red} = $10^2$ Var($S) = 10^2 \cdot 101 = 10100 $}
+\end{enumerate}
+
+
+\item Weekly feedback. You get full credit as long as you write something.
+\begin{enumerate}[a. ]
+\item Is there any aspect of the subject matter that you currently struggle with? If so, what specifically do you find difficult or confusing? The more detailed you are, the better I can help you.
+
+{\color{red} You got full credit as long as you wrote something.}
+\item Do you have any questions or concerns about the material, class logistics, or anything else? If so, fire away.
+{\color{red} You got full credit as long as you wrote something.}
+\end{enumerate}
+\end{enumerate}
+\end{flushleft}
+\end{document}

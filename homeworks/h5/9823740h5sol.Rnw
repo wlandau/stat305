@@ -1,0 +1,229 @@
+% !TEX TS-program = knitr
+\documentclass{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{latexsym}
+\usepackage{listings}
+\usepackage{mathrsfs}
+\usepackage{natbib}
+\usepackage[nottoc]{tocbibind}
+\usepackage{url}
+
+\providecommand{\all}{\ \forall \ }
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\m}[1]{\mathbb{#1}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\p}{\newpage}
+\providecommand{\q}{$\quad$ \newline}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+%\renewcommand\bibname{References}
+%\renewcommand{\thesection}{Problem \arabic{section}}
+%\renewcommand{\thesubsection}{Part \alph{subsection}}
+\numberwithin{equation}{section}
+
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[R]{\thepage}
+\fancyhead[C]{Landau}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=blue
+}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{ 
+  language=C,                % the language of the code
+  basicstyle=\Large,           % the size of the fonts that are used for the code
+  numberstyle= \tiny \color{white},  % the style that is used for the line-numbers
+  stepnumber=2,                   % the step between two line-numbers. 
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=lrb,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text 
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=t,                   % sets the caption-position 
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{gray},       % comment style
+  stringstyle=\color{dkgreen},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*, ...},               % if you want to add more keywords to the set
+  xleftmargin=0.053in, % left horizontal offset of caption box
+  xrightmargin=-.03in % right horizontal offset of caption box
+}
+
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\parbox{\textwidth}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}\vskip-0.05in}}
+\captionsetup[lstlisting]{format = listing, labelfont = white, textfont = white}
+% For caption-free listings, comment out the 3 lines above and uncomment the 2 lines below.
+% \captionsetup{labelformat = empty, labelsep = none}
+% \lstset{frame = single}
+
+\SweaveOpts{out.width = "\\textwidth"}
+
+<<echo = F>>=
+options(width = 60) # R output width
+@
+
+\begin{document}
+\begin{flushleft}
+
+\begin{center} \LARGE
+STAT 305 D Homework 5 
+\end{center}
+\begin{center} \Large
+Due February 28, 2012 at 12:40 PM in class
+\end{center}
+\normalsize
+
+Note: Wolfram Alpha (www.wolframalpha.com) is really useful for calculating things like binomial coefficients. It's an online calculator with flexible syntax. Here's an example of how I can calculate $\binom{10}{4} (0.3)^4 (0.7)^6$, which is the pmf of a Binomial$(10,0.3)$ random variable:
+
+$\quad$ \newline \includegraphics[scale=0.35,angle=0]{../../fig/wolf} \newline
+
+
+\begin{enumerate}[1. ]
+\item 
+Suppose that an eddy current nondestructive evaluation technique for identifying cracks in critical metal parts has a probability of around $p=0.20$ of detecting a single crack of length 0.003 inches in a certain material. Suppose further that $n=8$ specimens of this material, each containing one (and only one) single crack of length 0.003 inches, are inspected using this technique. Let $W$ be the number of specimens out of the total 8 for which the crack was actually detected. Using the appropriate pmf for $W$, calculate:
+
+\begin{enumerate}[a. ]
+\item $P(W = 3)$
+\item $P(W \le 2)$
+\item E($W$)
+\item Var ($W$)
+\item The standard deviation, SD$(W)$.
+\end{enumerate}
+
+
+
+$\quad$ \newline \includegraphics[scale=0.5,angle=0]{../../fig/2} \newline
+
+\item 
+Take the situation described in the previous exercise. Suppose that some indefinite number of specimens is inspected, one specimen after the other, each containing a single crack of length 0.003 inches or no crack at all. Let $Y$ be the number of specimens inspected in order to obtain the first crack detection. (In other words, $Y$ is the ``time index" of the first detection.) Use the appropriate pmf for $Y$, calculate:
+\begin{enumerate}[a. ]
+\item $P(Y = 5)$
+\item $P(Y \le 4)$
+\item $E(Y)$
+\item Var$(Y)$
+\item The standard deviation, SD$(Y)$
+\end{enumerate}
+
+$\quad$ \newline \includegraphics[scale=0.5,angle=0]{../../fig/3} \newline
+
+\item A process for making plate glass produces an average of four seeds (small bubbles) per 100 square feet. Use Poisson distributions and assess probabilities that:
+
+\begin{enumerate}
+\item a particular piece of glass 5 ft $\times$ 10 ft will contain more than two seeds
+\item a particular piece of glass 5 ft $\times$ 5 ft will contain no seeds
+\end{enumerate}
+
+$\quad$ \newline \includegraphics[scale=0.5,angle=0]{../../fig/4} \newline
+
+
+
+
+\item \begin{enumerate}
+\item 
+Transmission line interruptions in a telecommunications network occur at an average rate of one per day. Use a Poisson distribution as a model for:
+
+\begin{align*}
+X = \text{the number of interruptions in the next five-day work week}
+\end{align*}
+
+Calculate $P(X = 0)$.
+
+
+\item Now, consider the random variable:
+
+\begin{align*}
+Y = \text{the number of weeks in the next $n=4$ weeks in which there are no interruptions.}
+\end{align*}
+ What is a reasonable probability distribution for $Y$? Calculate $P(Y = 2)$. 
+
+
+\end{enumerate} $\quad$ \newline
+
+$\quad$ \newline \includegraphics[scale=0.5,angle=0]{../../fig/5} \newline
+
+
+
+
+
+
+
+
+
+\item 
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/ch5s2p1.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/ch5s2p1sol1.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/ch5s2p1sol2.png}
+
+
+
+\item $X$ be the time between two successive arrivals at the drive-up window of a local bank. Suppose $X \sim$ Exp(1). Calculate:
+
+\begin{enumerate}[a. ]
+\item $P(X \le 4)$
+\item $P(2 \le X \le 5)$
+\end{enumerate}
+
+
+\begin{enumerate}[a. ]
+\item \setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/hw5esola.png}
+\item \setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/hw5esolb.png}
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\item Weekly feedback. You get full credit as long as you write something.
+\begin{enumerate}[a. ]
+\item Is there any aspect of the subject matter that you currently struggle with? If so, what specifically do you find difficult or confusing? The more detailed you are, the better I can help you.
+
+{\color{red} You got full credit as long as you wrote something.}
+\item Do you have any questions or concerns about the material, class logistics, or anything else? If so, fire away.
+{\color{red} You got full credit as long as you wrote something.}
+\end{enumerate}
+
+\end{enumerate}
+
+\end{flushleft}
+\end{document}

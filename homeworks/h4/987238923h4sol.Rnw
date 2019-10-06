@@ -1,0 +1,212 @@
+% !TEX TS-program = knitr
+\documentclass{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{latexsym}
+\usepackage{listings}
+\usepackage{mathrsfs}
+\usepackage{natbib}
+\usepackage[nottoc]{tocbibind}
+\usepackage{url}
+
+\providecommand{\all}{\ \forall \ }
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\m}[1]{\mathbb{#1}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\p}{\newpage}
+\providecommand{\q}{$\quad$ \newline}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+%\renewcommand\bibname{References}
+%\renewcommand{\thesection}{Problem \arabic{section}}
+%\renewcommand{\thesubsection}{Part \alph{subsection}}
+\numberwithin{equation}{section}
+
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[R]{\thepage}
+\fancyhead[C]{Landau}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=blue
+}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{ 
+  language=C,                % the language of the code
+  basicstyle=\Large,           % the size of the fonts that are used for the code
+  numberstyle= \tiny \color{white},  % the style that is used for the line-numbers
+  stepnumber=2,                   % the step between two line-numbers. 
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=lrb,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text 
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=t,                   % sets the caption-position 
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{gray},       % comment style
+  stringstyle=\color{dkgreen},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*, ...},               % if you want to add more keywords to the set
+  xleftmargin=0.053in, % left horizontal offset of caption box
+  xrightmargin=-.03in % right horizontal offset of caption box
+}
+
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\parbox{\textwidth}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}\vskip-0.05in}}
+\captionsetup[lstlisting]{format = listing, labelfont = white, textfont = white}
+% For caption-free listings, comment out the 3 lines above and uncomment the 2 lines below.
+% \captionsetup{labelformat = empty, labelsep = none}
+% \lstset{frame = single}
+
+\SweaveOpts{out.width = "\\textwidth"}
+
+<<echo = F>>=
+options(width = 60) # R output width
+@
+
+\begin{document}
+
+
+
+\begin{flushleft}
+
+
+\begin{center} \LARGE
+STAT 305 D Homework 4 
+\end{center}
+\begin{center} \Large
+Due February 21, 2012 at 12:40 PM in class
+\end{center}
+
+
+\begin{enumerate}[1. ]
+
+\item Vardeman and Jobe chapter 4 section 2 problem 1 (page 161). The data are available at \url{http://will-landau.com/data/csv/polypolyols.csv}. 
+
+\setkeys{Gin}{width=.75\textwidth} \includegraphics{../../fig/ch4s2p1.png}
+
+The relevant information from section 4.1 exercise 3 is this: The article “Polyglycol Modified Poly (Ethylene Ether Carbonate) Polyols by Molecular Weight Advancement” by R. Harris (Journal of Applied Poly- mer Science, 1990) contains some data on the effect of reaction temperature on the molecular weight of resulting poly polyols. The data for eight experimental runs at temperatures 165${}^\circ$C and above are as follows. Here, $x$ is pot temperature (${}^\circ$) and $y$ is average molecular weight.
+
+<<echo=F, results="tex">>=
+  r = readRDS("../../data/rds/polypolyols.rds")
+  library(xtable)
+  colnames(r) = c("x", "y")
+  print(xtable(r), include.rownames = F, hline.after = c(0))
+@
+
+
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/ch4s2p1sol1.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/ch4s2p1sol2.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/ch4s2p1sol3.png}
+
+
+\item Vardeman and Jobe chapter 4 section 2 problem 2 parts a-c (page 161). The data are available at \url{http://will-landau.com/stat305/data/csv/pulp.csv}. Here are some data taken from the article “Chemithermomechanical Pulp from Mixed High Density Hardwoods” by Miller, Shankar, and Peterson (Tappi Journal, 1988). Given are the percent NaOH used as a pretreatment chemical, x1, the pretreatment time in minutes, x2, and the resulting value of a specific surface area variable, y (with units of cm3/g), for nine batches of pulp produced from a mixture of hardwoods at a treatment temperature of 75${}^\circ$ C in mechanical pulping.
+
+
+
+
+\setkeys{Gin}{width=.75\textwidth} \includegraphics{../../fig/ch4s2p2.png}
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/ch4s2p2asol.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/ch4s2p2bsol.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/ch4s2p2csol.png}
+
+
+
+
+
+
+
+
+
+
+
+\clearpage
+\item 
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h5p1.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h5p1sol.png}
+\clearpage
+\item
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h5p2.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h5p2sol.png}
+\clearpage
+\item
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h5p3.png}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/h5p3sol.png}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\item Weekly feedback. You get full credit as long as you write something.
+\begin{enumerate}[1. ]
+\item Is there any aspect of the subject matter that you currently struggle with? If so, what specifically do you find difficult or confusing? The more detailed you are, the better I can help you.
+
+{\color{red} You got full credit as long as you wrote something.}
+\item Do you have any questions or concerns about the material, class logistics, or anything else? If so, fire away.
+{\color{red} You got full credit as long as you wrote something.}
+\end{enumerate}
+\end{enumerate}
+
+
+
+
+\end{flushleft}
+%\newpage 
+%\nocite{*}
+%\bibliographystyle{plainnat} 
+%\bibliography{}
+\end{document}

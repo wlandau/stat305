@@ -1,0 +1,657 @@
+% !TEX TS-program = knitr
+\documentclass[handout]{beamer}
+\newcommand{\answers}{1}
+
+\usetheme{Marburg}
+\setbeamertemplate{navigation symbols}{} 
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\copyright $\ $ \insertshortauthor%~~\beamer@ifempty{\insertshortinstitute}{}{(\insertshortinstitute)}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot} \insertinstitute
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+\usepackage{amsmath}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{mathrsfs}
+\usepackage{natbib}
+\usepackage{url}
+
+\providecommand{\all}{\ \forall \ }
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\m}[1]{\mathbb{#1}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\p}{\newpage}
+\providecommand{\q}{$\quad$ \newline}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+\hypersetup{colorlinks,linkcolor=,urlcolor=blue}
+\numberwithin{equation}{section}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{ 
+  language=C,                % the language of the code
+  basicstyle= \footnotesize,           % the size of the fonts that are used for the code
+  numberstyle= \tiny \color{white},  % the style that is used for the line-numbers
+  stepnumber=2,                   % the step between two line-numbers. 
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=lrb,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text 
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=t,                   % sets the caption-position 
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  %title=\lstname,                   % show the filename of files included with \lstinputlisting;
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{gray},       % comment style
+  stringstyle=\color{dkgreen},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*, ...},               % if you want to add more keywords to the set
+  xleftmargin=0.053in, % left horizontal offset of caption box
+  xrightmargin=-.03in % right horizontal offset of caption box
+}
+
+%\DeclareCaptionFont{white}{\color{white}}
+%\DeclareCaptionFormat{listing}{\parbox{\textwidth}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}\vskip-0.05in}}
+%\captionsetup[lstlisting]{format = listing, labelfont = white, textfont = white}
+%For caption-free listings, comment out the 3 lines above and uncomment the 2 lines below.
+ \captionsetup{labelformat = empty, labelsep = none}
+ \lstset{frame = single}
+
+<<echo = F>>=
+options(width = 50) # R output width
+knit_hooks$set(small.mar = function(before, options, envir) {
+    if (before) par(oma = c(0,0,0,0), mar=c(5,2,0,0)+0.1)  # mar = c(bottom, left, top, right)
+})
+@
+
+\title{Inference for Simple Linear Regression (Ch. 9.1)}
+\author{Will Landau}
+\date{Apr 11, 2013}
+\institute{Iowa State University}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+ \end{frame}
+ 
+ \AtBeginSection[]
+{
+   \begin{frame}
+       \frametitle{Outline}
+       \tableofcontents[currentsection]
+   \end{frame}
+}
+
+\section{A Review of Simple Linear Regression (Ch. 4)}
+
+\begin{frame}[fragile]
+\frametitle{\small Pressing pressures and specimen densities for a ceramic compound}
+\scriptsize
+A mixture of $\text{Al}_2\text{O}_3$, polyvinyl alcohol, and water was prepared, dried overnight, crushed, and sieved to obtain 100 mesh size grains. These were pressed into cylinders at pressures from 2,000 psi to 10,000 psi, and cylinder densities were calculated. 
+
+<<echo=F, results="asis", warning=F>>=
+ d = readRDS("../../data/rds/ceramics.rds")
+ library(xtable)
+ colnames(d) = c("x (pressure in psi)", "y (density in g/cc)")
+ print(xtable(d), include.rownames=F,hline.after=c(0))
+@
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{\small Scatterplot: ceramics data}
+
+\begin{center}
+<<echo=F, fig.width = 10, fig.height=6, out.height = ".6\\textheight", out.width = ".8\\textwidth", small.mar = T>>=
+ par(cex = 2)
+ plot(x= d[[1]], y = d[[2]], xlab = "x (pressure in psi)", ylab = "y (density in g/cc)", main = "")
+@
+\end{center}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{}
+\begin{center}
+<<echo=F, fig.width = 10, fig.height=6, out.height = ".6\\textheight", out.width = ".8\\textwidth", small.mar = T>>=
+ par(cex = 2)
+ plot(x= d[[1]], y = d[[2]], xlab = "x (pressure in psi)", ylab = "y (density in g/cc)", main = "")
+ d = data.frame( x = d[[1]], y = d[[2]])
+ abline(lm(y~x, data = d), col = "blue", lwd = 2)
+line = lm(y~x, data = d)
+cf = coef(line)
+cf[1] = round(cf[1], 3)
+cf[2] = round(cf[2], 8)
+txt = paste("y ~", cf[1], "+", cf[2], "x")
+text(x = 4000, y = 2.75, labels = txt, col = "blue")
+@
+\end{center}
+
+\begin{itemize}
+\item The line,  $y \approx 2.375 + 4.867 \times 10^{-5} x$, is the {\bf regression line} fit to the data.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Why fit a regression line?}
+\begin{enumerate}[1. ]
+\item To predict future values of $y$ based on $x$.
+\begin{itemize}
+\pause \item I.e., a new ceramic under pressure $x = 5000$ psi should have a density of $2.375 + 4.867 \times 10^{-5} \cdot 5000 = 2.618$ g/cc. 
+\end{itemize}
+\pause \item To characterize the relationship between $x$ and $y$ in terms of strength, direction, and shape.
+\begin{itemize}
+\pause \item In the ceramics data, density has a strong, positive, linear association with $x$. 
+\pause \item On average, the density increases by $4.867 \times 10^{-5}$ g/cc for every increase in pressure of 1 psi.
+\end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Fitting a linear regression line}
+\begin{itemize}
+\item For a response variable $y$ and a predictor variable $x$, we declare:
+\begin{align*}
+y \approx b_0 + b_1 x
+\end{align*}
+\pause \item and then calculate the intercept $b_0$ and slope $b_1$ using {\bf least squares}.
+\begin{itemize}
+\pause \item We apply the {\bf principle of least squares}: that is, the best-fit line is given by minimizing the {\bf loss function} in terms of $b_0$ and $b_1$:
+\pause \begin{align*}
+S(b_0, b_1) = \sum_{i = 1}^n (y_i - \wh{y}_i)^2
+\end{align*} 
+\item Here, $\wh{y}_i  = b_0 + b_1 x_i$
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{\small Minimize $\sum_{i = 1}^n (y_i - \wh{y}_i)^2$ to get the line as close as possible to the points.}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/lossfunplot.png}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{How to apply least squares to get the regression line}
+\begin{itemize}
+\item From the principle of least squares, one can derive the {\bf normal equations}:
+\pause \begin{align*}
+n b_0 + b_1 \sum_{i = 1}^n x_i &= \sum_{i = 1}^n y_i \\
+b_0 \sum_{i = 1}^n x_i + b_1 \sum_{i = 1}^n x_i^2 &= \sum_{i = 1}^n x_i y_i 
+\end{align*}
+\pause \item and then solve for $b_0$ and $b_1$:
+\pause \begin{align*}
+\color{blue} b_1 = \frac{\sum(x_i - \ov{x})(y_i - \ov{y})}{\sum(x_i - \ov{x})^2} \qquad b_0 = \ov{y}- b_1 \ov{x}
+\end{align*}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Example: plastics hardness data} \small
+Eight batches of plastic are made. From each batch one test item is molded. At a given time (in hours), it hardness is measured in units (assume freshly-melted plastic has a hardness of 0 units). The following are the 8 measurements and times.
+
+\begin{minipage}[b]{0.47\linewidth} 
+<<echo=F, results="asis">>=
+  r = readRDS("../../data/rds/plastics.rds")
+  library(xtable)
+  op <- par(mfrow=c(1,2))
+  print(xtable(r, floating=T), include.rownames=F, hline.after = c(0))
+@
+\end{minipage}
+\begin{minipage}[b]{0.47\linewidth} 
+<<echo=F, smallmar = T>>=
+  par(cex = 2)
+  plot(hardness ~ time, xlab = "Time (hours)", ylab ="Hardness (units)", data = r)
+@
+\end{minipage}
+
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Fitting the line} \scriptsize
+\begin{itemize}
+\item $\ov{x} = \Sexpr{mean(r[[1]])}$
+\item $\ov{y} = \Sexpr{mean(r[[2]])}$
+<<echo=F, results="asis">>=
+  xm = r[[1]] - mean(r[[1]])
+  ym = r[[2]] - mean(r[[2]])
+  xmsq = xm^2
+  dp = xm*ym
+  calc = data.frame(x = r[[1]], y = r[[2]],  xm = xm, ym = ym,  dp = dp, xmsq = xmsq)
+  colnames(calc) = c("x", "y", "$x_i - \\ov{x}$",  "$y_i - \\ov{y}$", "$(x_i - \\ov{x})(y_i - \\ov{y})$", "$(x_i - \\ov{x})^2$")
+   print(xtable(calc), include.rownames=F, hline.after = c(0), sanitize.text.function = function(x){x})
+@
+\item $\sum (x_i - \ov{x})(y_i - \ov{y}) = \Sexpr{round(calc[1,5], 2)} +  \Sexpr{round(calc[2,5], 2)}  + \cdots  \Sexpr{round(calc[8,5], 2)}  =  \Sexpr{num <- sum(calc[,5]); num} $
+\item $\sum (x_i - \ov{x})^2= \Sexpr{round(calc[1,6], 2)} +  \Sexpr{round(calc[2,6], 2)}  + \cdots  \Sexpr{round(calc[8,6], 2)}  =  \Sexpr{denom <- sum(calc[,6]); denom} $
+\item $b_1 = \frac{\Sexpr{num}}{\Sexpr{denom}} = \Sexpr{b1 <- round(num/denom, 2); b1}$ 
+\item $b_0 = \ov{y} - b_1 \ov{x} = \Sexpr{mean(r[[2]])} - \Sexpr{b1} \cdot \Sexpr{mean(r[[1]])} = \Sexpr{b0 <- round(277.125 - b1*51,2 ); b0}$
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Plot the line to check the fit.} \small
+\begin{center}
+<<echo=F, small.mar = T, out.width = "0.8\\textwidth", out.height = "0.8\\textheight">>=
+par(cex = 1.75)
+plot(hardness ~ time, xlab = "Time (hours)", ylab ="Hardness (units)", data = r)
+abline(a = 153.19, b = 2.43, col = "blue")
+text(x = 40, y = 325, labels = paste("y ~", b0, "+", b1, "x"), col = "blue")
+@
+
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Interpret the model terms}
+\begin{itemize}
+\item $b_1 = 2.43$ means that on average, the plastic hardens 2.43 more units for every additional hour it is allowed to harden.
+\pause \item $b_0 = 153.19$ means that if the model is completely true, at the very beginning of the hardening process (time = 0 hours), the plastics had a hardness of 153.19 on average.
+\begin{itemize}
+\pause \item But we know that the plastics were completely molten at the very beginning, with a hardness of 0.
+\pause \item Don't {\bf extrapolate}: i.e., predict $y$ values beyond the range of the $x$ data. 
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Linear correlation: a measure of usefulness}
+\begin{itemize}
+\item {\bf Linear correlation}: a measure of usefulness of a fitted line, defined by:
+\pause \begin{align*}
+r = \frac{\sum(x_i - \ov{x})(y_i - \ov{y})}{\sqrt{\sum (x_i - \ov{x})^2 \sum (y_i - \ov{y})^2}}
+\end{align*}
+\pause \item As it turns out:
+\begin{align*}
+r = b_1\frac{s_x}{s_y}
+\end{align*}
+where $s_x$ is the standard deviation of the $x_i$'s and $x_y$ is the standard deviation of the $y_i$'s. 
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Facts about linear correlation}
+\begin{itemize}
+\item $-1 \le r \le 1$
+\pause \item $r < 0$ means a negative slope, $r > 0$ means a positive slope
+\pause \item High $|r|$ means $x$ and $y$ have a strong linear relationship (high correlation), and low $|r|$ implies a weak linear relationship (low correlation).
+\end{itemize}
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/diffcorrs.png}
+\end{frame}
+
+
+
+
+\begin{frame}
+\frametitle{Coefficient of determination} \small
+\begin{itemize}
+\item {\bf Coefficient of determination}: another measure of the usefulness of a fitted line, defined by:
+\begin{align*}
+R^2 = \frac{\sum(y_i - \ov{y})^2 - \sum(y_i - \wh{y}_i)^2}{\sum(y_i - \ov{y})^2}
+\end{align*}
+where $\wh{y}_i = b_0 + b_1 x_i$. 
+\pause \item Fortunately,
+\begin{align*} \color{blue}
+R^2 = r^2
+\end{align*}
+\pause \item Interpretation: $R^2$ is the fraction of variation in the response variable ($y$) explained by the fitted line.
+\pause \item Ceramics data: $R^2 = r^2 = 0.9911^2 = \Sexpr{0.9911^2}$, so  \Sexpr{0.9911^2 * 100}\% of the variation in density is explained by pressure. Hence, the line is useful for predicting density from pressure.
+\pause \item Plastics data: $R^2 = r^2 = 0.9796^2 = \Sexpr{0.9796^2}$, so  \Sexpr{0.9796^2 * 100}\% of the variation in hardness is explained by time. Hence, so the line is useful for predicting hardness from time.
+\end{itemize}
+\end{frame}
+
+\section{Formalizing the Simple Linear Regression Model}
+
+\begin{frame}
+\frametitle{The informal simple linear regression model}
+\begin{itemize}
+\item Up until now, we have looked at fitted lines of the form:
+\begin{align*}
+y_i = b_0 + b_1 x_i + e_i
+\end{align*}
+where:
+\begin{itemize}
+\pause \item $y_1, \ y_2, \ldots, y_n$ are the fixed, observed values of the response variable.
+\pause \item $x_1, \ x_2, \ldots, x_n$ are the fixed, observed values of the predictor variable.
+\pause \item $b_0$ is the estimated slope of the line based on \emph{sample} data.
+\pause \item $b_1$ is the estimated intercept of the line based on \emph{sample} data.
+\pause \item $e_i$ is the residual of the $i$'th unit of the sample.
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{The formal simple linear regression model} \small
+\begin{align*}
+Y_i = \beta_0 + \beta_1 x_i + \e_i
+\end{align*}
+\begin{itemize}
+\pause \item $Y_1, \ Y_2, \ldots, Y_n$ are random variables that describe the response.
+\pause \item $x_1, \ x_2, \ldots, x_n$ are still fixed, observed values of the predictor variable.
+\pause \item $\beta_0$ is a parameter denoting the \emph{true} intercept of the line if we fit it to the population.
+\pause \item $\beta_1$ is a parameter denoting the \emph{true} slope of the line if we fit it to the population.
+\pause \item $\e_1, \ \e_2, \ldots, \e_n$ are random variables called {\bf error terms}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{The formal simple linear regression model} \small
+
+\begin{itemize}
+\item We assume:
+\begin{align*}
+\e_1, \ \e_2, \ldots, \e_n \stackrel{\text{iid}}{\sim} N(0, \sigma^2)
+\end{align*}
+\pause \item Which means that for all $i$:
+\begin{align*}
+Y_i \stackrel{\text{iid}}{\sim} N(\beta_0 + \beta_1 x_i, \ \sigma^2)
+\end{align*}
+\pause \item We often say:
+\begin{align*}
+\mu_{y \mid x} = \beta_0 + \beta_1 x
+\end{align*}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{The formal simple linear regression model}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/normalsimplereg.png}
+\end{frame}
+
+\section{Estimating $\sigma^2$}
+
+\begin{frame}
+\frametitle{The line-fitting sample variance}
+\begin{itemize}
+\item Recall:
+\begin{itemize}
+\item $\wh{y}_i = b_0 + b_1 x_i $
+\pause \item $e_i = y_i - \wh{y}_i$
+\end{itemize}
+\pause \item The {\bf line-fitting sample variance}, also called {\bf mean squared error} (MSE) is:
+\pause \begin{align*}
+s_{LF}^2 = \frac{1}{n-2}\sum_i (y_i - \wh{y}_i)^2 = \frac{1}{n-2} \sum_i e_i^2
+\end{align*}
+\pause and it satisfies:
+\pause \begin{align*}
+E(s_{LF}^2) = \sigma^2
+\end{align*}
+\pause \item The line-fitting sample standard deviation is just $s_{LF} = \sqrt{s_{LF}^2}$
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Example: ceramics} \small
+\begin{itemize}
+\item A mixture of Al${}_2$O${}_3$, polyvinyl alcohol, and water was prepared, dried overnight, crushed, and sieved to obtain 100 mesh size grains. These were pressed into cylinders at pressures from 2,000 psi to 10,000 psi, and cylinder densities were calculated.
+\end{itemize}
+\begin{center}
+\setkeys{Gin}{width=.38\textwidth} \includegraphics{../../fig/ceramicdat.png}
+\end{center}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Example: ceramics}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/ceramicsplot.png}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Example: ceramics} \scriptsize
+\begin{itemize}
+\item The fitted least squares line is $\wh{y}_i = 2.375 + 0.0000487 x_i$.
+\pause \item The fitted values $\wh{y}_i$ are:
+\begin{center}
+\setkeys{Gin}{width=.4\textwidth} \includegraphics{../../fig/ceramicsfit.png}
+\end{center}
+\pause \item And $\sum (y_i - \wh{y}_i)^2$ is:
+\end{itemize}
+\begin{center}
+\setkeys{Gin}{width=.8\textwidth} \includegraphics{../../fig/ceramicsyyhat.png}
+\end{center}
+\begin{itemize}
+\pause \item Thus, $s^2_{LF} = \frac{1}{n-2} \sum (y_i - \wh{y}_i)^2 = \frac{1}{15 - 2} \cdot 0.005153 = 0.00396 (g/cc)^2$
+\pause \item $s_{LF} = \sqrt{s^2_{LF}} = 0.0199 g/cc$
+\end{itemize}
+\end{frame}
+
+\section{Standardized residuals}
+
+\begin{frame}
+\frametitle{Standardized residuals}
+\begin{itemize}
+\item Recall that we assume $\e_1, \ldots, \e_n \stackrel{\text{iid}}{\sim} N(0, \sigma^2)$.
+\pause \item We also have $E(e_i) = 0$, but because we're \emph{estimating} the slope and intercept instead of using the true slope and intercept,
+\pause \begin{align*}
+Var(e_j) = \sigma^2 \left ( 1 - \frac{1}{n} - \frac{(x_j-\ov{x})^2}{ \sum_i (x_i - \ov{x})^2} \right )
+\end{align*}
+\pause \item We don't want $Var(e_j)$ to vary with $j$, so we define the $j$'th {\bf standardized residual}:
+\pause \begin{align*}
+e_j^* = \frac{e_j}{s_{LF}\sqrt{ 1 - \frac{1}{n} - \frac{(x_j-\ov{x})^2}{ \sum_i (x_i - \ov{x})^2} }}
+\end{align*}
+which, under our model assumptions, is $\approx N(0,1)$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Example: ceramics} \small
+\begin{itemize}
+\item Since $\ov{x} = 6000$, we can calculate $\sum(x_i - \ov{x})^2 = 1.2 \times 10^8$.
+\end{itemize}
+\begin{center}
+\setkeys{Gin}{width=.6\textwidth} \includegraphics{../../fig/srescalc.png}
+\end{center}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Example: ceramics}
+\begin{center}
+\setkeys{Gin}{width=.7\textwidth} \includegraphics{../../fig/stdres.png}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Example: ceramics}
+\begin{center}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/ceramrawres.png}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Example: ceramics}
+\begin{center}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/ceramstdres.png}
+\end{center}
+\end{frame}
+
+
+\section{Inference for the slope parameter}
+
+\begin{frame}
+\frametitle{Inference for the slope parameter}
+\begin{itemize}
+\item Since $b_1$ was estimated from the data, we can treat it as a random variable.
+\pause \item Under the assumptions of the simple linear regression model,
+\begin{align*}
+b_1 \sim N \left ( \beta_1, \ \frac{\sigma^2}{\sum_i(x_i -\ov{x})^2} \right )
+\end{align*}
+\pause \item Thus:
+\begin{align*}
+Z = \frac{b_1 - \beta_1}{\frac{\sigma}{\sqrt{ \sum_i(x_i -\ov{x})^2} }} \sim N(0,1)
+\end{align*}
+\pause and 
+\begin{align*}
+T =  \frac{b_1 - \beta_1}{\frac{s_{LF}}{\sqrt{ \sum_i(x_i -\ov{x})^2} }} \sim t_{n-2}
+\end{align*}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Inference for the slope parameter} \small
+\begin{itemize}
+\item If we want to test $H_0: \beta_1 = \#$, we can use the test statistic:
+\begin{align*}
+K = \frac{b_1 - \#}{\frac{s_{LF}}{\sqrt{ \sum_i(x_i -\ov{x})^2} }} \sim t_{n-2}
+\end{align*}
+\pause which has a $t_{n-2}$ distribution if $H_0$ is true and the model assumptions are true.
+\pause \item We can write a two-sided $1 - \alpha$ confidence interval as:
+\end{itemize}
+\pause \begin{align*}
+\left( b_1 - t_{n-2, \ 1 - \alpha/2} \cdot \frac{s_{LF}}{\sqrt{ \sum_i(x_i -\ov{x})^2} }, b_1 + t_{n - 2, 1 - \alpha/2} \cdot \frac{s_{LF}}{\sqrt{ \sum_i(x_i -\ov{x})^2} } \right)
+\end{align*}
+\begin{itemize}
+\pause \item The one-sided confidence intervals are analogous.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Example: ceramics} \small
+\begin{itemize}
+\item I will construct a two-sided 95\% confidence interval for $\beta_1$ ($\alpha = 0.05$).
+\pause \item From before, $b_1 = 0.0000487$ g/cc/psi, $\sum_i (x_i - \ov{x})^2 = 1.2 \times 10^8$, and $s_{LF} = 0.0199$.
+\pause \item $t_{n -2, \ 1-\alpha/2} = t_{13, \ 0.975} = $ 2.16.
+\pause \item The confidence interval is then:
+\end{itemize}
+\pause \begin{align*}
+\left ( 0.0000487 - 2.16 \frac{0.0199}{\sqrt{1.2 \times 10^8}}, \ 0.0000487 + 2.16 \frac{0.0199}{\sqrt{1.2 \times 10^8}}  \right) \\
+(0.0000448, \ 0.0000526)
+\end{align*}
+\begin{itemize}
+\pause \item We're 95\% confident that for every unit increase in psi, the density of the next ceramic increases by anywhere between 0.0000448 g/cc and 0.0000526 g/cc.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Example: ceramics}
+\begin{itemize}
+\item In JMP:
+\begin{itemize}
+\pause \item Open the data in a spreadsheet with:
+\begin{itemize}
+\pause \item 1 column for $x$
+\pause \item 1 column for $y$
+\end{itemize}
+\pause \item For simple linear regression
+\begin{itemize}
+\pause \item Click Analyze $\rightarrow$ Fit Y by X
+\pause \item Y variable - in Y, Response
+\pause \item X variable - in X, Factor
+\pause \item Click red triangle - Fit line
+\end{itemize}
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Example: ceramics}
+\begin{center}
+\setkeys{Gin}{width=.48\textwidth} \includegraphics{../../fig/jmpcer1.png}
+\setkeys{Gin}{width=.48\textwidth} \includegraphics{../../fig/jmpcer2.png}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Example: ceramics}
+\begin{center}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/jmpcerparams.png}
+\end{center}
+\begin{itemize}
+\item I can construct the same confidence interval using the JMP output:
+\begin{itemize}
+\pause \item $b_1 = 4.87 \times 10^{-5}$, $t_{n - 1, 1 - \alpha/2} = 2.16$, $\wh{SD}(b_1) = 1.817 \times 10^{-6}$
+\item 
+\begin{align*}
+&\uncover<3->{(4.87 \times 10^{-5} - 2.16 \cdot 1.817 \times 10^{-6},} \\
+ &\uncover<3->{ \qquad 4.87 \times 10^{-5} + 2.16 \cdot 1.817 \times 10^{-6})} \\
+&\uncover<4->{= (0.0000448, \ 0.0000526)}
+\end{align*}
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Your turn: ceramics}
+\begin{center}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{../../fig/jmpcerparams.png}
+\end{center}
+
+\begin{itemize}
+\item At $\alpha = 0.05$, conduct a two-sided hypothesis test of $H_0: \beta_1 = 0$ using the method of p-values.
+\end{itemize}
+\end{frame}
+
+\begin{frame}<handout:\answers>
+\frametitle{Answers: ceramics} \small
+\begin{enumerate}[1. ]
+\item $H_0: \beta_1 = 0$, $H_a: \beta_1 \ne 0$.
+\pause \item $\alpha = 0.05$
+\pause \item Use the test statistic:
+\pause \begin{align*}
+K = \frac{b_1 - 0}{\frac{s_{LF}}{\sqrt{\sum(x_i - \ov{x})^2}}} = \frac{b_1}{\wh{SD}(b_1)}
+\end{align*}
+\pause I assume:
+\begin{itemize}
+\pause \item $H_0$ is true.
+\pause \item The model, $Y_i = \beta_0 + \beta_1 x_i + \e_i$ with errors $\e_i \sim$ iid $N(0, \sigma^2)$, is correct.  
+\end{itemize}
+Under these assumptions, $K \sim t_{n - 2} = t_{15 - 2} = t_{13}$
+\end{enumerate}
+\end{frame}
+
+
+\begin{frame}<handout:\answers>
+\frametitle{Answers: ceramics} \small
+\begin{enumerate}
+\setcounter{enumi}{3}
+\item  The moment of truth: 
+\begin{align*}
+\uncover<2->{K} & \uncover<2->{= \frac{4.87 \times 10^{-5}}{1.817 \times 10^{-6}}} \uncover<3->{= 26.80 \quad \text{(``t Ratio" in JMP output)}} \\
+\uncover<4->{\text{p-value}} & \uncover<4->{= P(|t_{13}| > |26.8|)} \uncover<5->{ = P(t_{13} > 26.8) + P(t_{13} < - 26.8)} \\
+&\uncover<6->{< 0.0001 \quad (\text{"Prob$>|t|$" in JMP output})}
+\end{align*}
+\uncover<7->{\item With a p-value $< 0.0001 < 0.05 = \alpha$, we reject $H_0$ and conclude $H_a$.}
+\uncover<8->{\item There is overwhelming evidence that the true slope of the line is different from 0.}
+\end{enumerate}
+\end{frame}
+
+
+\end{document}
